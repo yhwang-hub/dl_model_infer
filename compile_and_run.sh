@@ -1,0 +1,33 @@
+rm -rf build && mkdir -p build && cd build && cmake ..  && make -j9 && cd ..
+# mkdir -p build && cd build && cmake ..  && make -j48 && cd ..
+cd workspaces
+
+rm -rf cuda_res/*
+
+# ./infer -f rtdetr_r50vd_6x_coco.trt -i res/zidane.jpg -b 1 -c 10 -o cuda_res
+# ./infer -f rtdetr_r50vd_6x_coco.trt -i res/bus.jpg -b 1 -c 10 -o cuda_res
+# ./infer -f rtdetr_r50vd_6x_coco.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res
+
+# ./infer -f rtdetr_r50vd_6x_coco_dynamic_fp16.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t rt_detr_det
+
+# ./infer -f yolov8n.transd.trt -i res/dog.jpg -b 10 -c 10 -o cuda_res -t yolov8_det
+
+# ./infer -f yolov8n-seg.b1.transd.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -t yolov8_seg
+
+# ./infer -f yolov8s_pose_fp16.trt -i res/bus.jpg -b 1 -c 10 -o cuda_res -t yolov8_pose
+# ./infer -f yolov8s-pose_transd_fp16.trt -i res/bus.jpg -b 1 -c 10 -s 0.5 -o cuda_res -t yolov8_pose
+
+# ./infer -f yolov8n.transd.trt -i res/example.mp4  -s 0.25 -o cuda_res -t yolov8_det_track
+
+# ./infer -f yolov7_640.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -t yolov7_det
+# ./infer -f yolov7_640.trt -i res/bus.jpg -b 1 -c 10 -o cuda_res -t yolov7_det
+# ./infer -f yolov7_640.trt -i res/zidane.jpg -b 1 -c 10 -o cuda_res -t yolov7_det
+
+# ./infer -f yolox_s_fp16.trt -i res/dog.jpg -b 1 -c 1 -w 1 -o cuda_res -t yolox_det
+# ./infer -f yolox_s_fp16.trt -i res/bus.jpg -b 1 -c 1 -w 1 -o cuda_res -t yolox_det
+# ./infer -f yolox_s_fp16.trt -i res/zidane.jpg -b 1 -c 1 -w 1 -o cuda_res -t yolox_det
+
+rm -rf pointpillar_infer_res/*
+./infer -t pointpillar_det
+
+cd ..
