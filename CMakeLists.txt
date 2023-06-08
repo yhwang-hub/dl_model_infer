@@ -104,7 +104,7 @@ target_link_libraries(infer
     ${OpenCV_LIBS}
     nvinfer 
     nvinfer_plugin
-    nvonnxparser  
+    nvonnxparser    
 )
 
 # make install 时需要用到

@@ -55,8 +55,9 @@ int main(int argc, char *argv[])
     }
     else if (s.infer_task == "pointpillar_det")
     {
-        pointpillar_det_trt_inference();
+        pointpillar_det_trt_inference(&s);
     }
+    
 
     return RETURN_SUCCESS;
 }
