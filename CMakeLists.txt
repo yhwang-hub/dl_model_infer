@@ -61,6 +61,7 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/main.cpp
     ${PROJECT_SOURCE_DIR}/application/rt_detr_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov7_app/*.cpp
+    ${PROJECT_SOURCE_DIR}/application/yolov7_cutoff_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov5_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/pointpillar_app/*.cpp
@@ -72,9 +73,11 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/utils/tracker/ByteTracker/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/backend/tensorrt/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/preprocess/*.cu
+    ${PROJECT_SOURCE_DIR}/utils/preprocess/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/preprocess/pointpillar/*.cu
     ${PROJECT_SOURCE_DIR}/utils/preprocess/pointpillar/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/postprocess/*.cu
+    ${PROJECT_SOURCE_DIR}/utils/postprocess/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/postprocess/pointpillar/*.cu
     ${PROJECT_SOURCE_DIR}/utils/postprocess/pointpillar/*.cpp
     ${TensorRT_ROOT}/samples/common/logger.cpp # 引用对应版本的logger.cpp，用来适应多版本
@@ -86,6 +89,7 @@ cuda_add_library(utils_cu_cpp SHARED ${cpp_cuda_srcs})
 add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_rt_detr.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov7_det.cpp
+     ${PROJECT_SOURCE_DIR}/mains/main_yolov7_cutoff_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov5_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolox_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_det.cpp
@@ -124,6 +128,7 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/application/
         ${PROJECT_SOURCE_DIR}/application/rt_detr_app
         ${PROJECT_SOURCE_DIR}/application/yolov7_app
+        ${PROJECT_SOURCE_DIR}/application/yolov7_cutoff_app
         ${PROJECT_SOURCE_DIR}/application/yolov5_app
         ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app
         ${PROJECT_SOURCE_DIR}/application/pointpillar_app

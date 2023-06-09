@@ -97,6 +97,9 @@ namespace ai
                 auto &image = images[ib];
                 for (auto &obj : objs)
                 {
+                    // fprintf(stderr, "%d = %.5f at %.2f %.2f %.2f x %.2f\n", obj.class_label, obj.confidence,\
+                            obj.left, obj.top, obj.right, obj.bottom);
+
                     uint8_t b, g, r;
                     tie(b, g, r) = random_color(obj.class_label);
                     cv::rectangle(image, cv::Point(obj.left, obj.top), cv::Point(obj.right, obj.bottom),

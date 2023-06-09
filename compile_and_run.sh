@@ -31,7 +31,11 @@ rm -rf cuda_res/*
 # ./infer -f yolov5s_fp16.trt -i res/bus.jpg -b 1 -c 1 -w 2 -o cuda_res -s 0.45 -t yolov5_det
 # ./infer -f yolov5s_fp16.trt -i res/zidane.jpg -b 1 -c 2 -w 1 -o cuda_res -t yolov5_det
 
-rm -rf pointpillar_infer_res/*
-./infer -c 80 -t pointpillar_det
+# rm -rf pointpillar_infer_res/*
+# ./infer -c 80 -t pointpillar_det
+
+# ./infer -f yolov7_cutoff_fp16.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -t yolov7_cutoff_det
+./infer -f yolov7_cutoff_fp16.trt -i res/bus.jpg -b 1 -c 1 -o cuda_res -t yolov7_cutoff_det
+# ./infer -f yolov7_cutoff_fp16.trt -i res/zidane.jpg -b 1 -c 10 -o cuda_res -t yolov7_cutoff_det
 
 cd ..

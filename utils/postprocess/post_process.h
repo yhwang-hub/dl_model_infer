@@ -49,6 +49,10 @@ namespace ai
                         const int input_h, const int input_w, const int stride,
                         const float confThreshold, const float nmsThreshold,
                         float *invert_affine_matrix, float* output, cudaStream_t stream);
+        float box_iou_cpu(
+            float aleft, float atop, float aright, float abottom,
+            float bleft, float btop, float bright, float bbottom);
+        void fast_nms_cpu(float* bboxes, float threshold, int max_objects, int NUM_BOX_ELEMENT);
     }
 }
 #endif // _POST_PROCESS_HPP_CUDA_

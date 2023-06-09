@@ -7,6 +7,7 @@
 #include "mains/main_yolox_det.h"
 #include "mains/main_yolov5_det.h"
 #include "mains/main_pointpillar_det.h"
+#include "mains/main_yolov7_cutoff_det.h"
 
 
 int main(int argc, char *argv[])
@@ -57,7 +58,10 @@ int main(int argc, char *argv[])
     {
         pointpillar_det_trt_inference(&s);
     }
-    
+    else if (s.infer_task == "yolov7_cutoff_det")
+    {
+        yolov7_cutoff_det_trt_inference(&s);
+    }
 
     return RETURN_SUCCESS;
 }
