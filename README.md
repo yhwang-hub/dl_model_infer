@@ -22,6 +22,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.05.28 update rt_detr
 - 2023.06.01 update yolov8_seg、yolov8_pose
 - 2023.06.08 update pointpillar
+- 2023.06.09 update yolov7_cutoff
 
 # Environment
 The following environments have been tested：
@@ -44,6 +45,8 @@ The following environments have been tested：
   - https://github.com/WongKinYiu/yolov7
 - pointpillar model export tutorial
   - https://github.com/NVIDIA-AI-IOT/CUDA-PointPillars
+- yolov7_cutoff model export tutorial
+  - https://github.com/yhwang-hub/dl_model_deploy/tree/master/yolov7_cutoff_TensorRT
 # Quick Start
 Take yolov8 target detection as an example，modify CMakeLists.txt and run the command below：
 ```
@@ -94,6 +97,19 @@ AiInfer
    |--mains # This is the collection of main.cpp, where each app corresponds to a main file, which is easy to understand, and it is too redundant to write together
    |--main.cpp # Project entry
 ```
+
+# onnx downloads
+| model  | baiduyun |
+| ------------- | ------------- |
+| yolov5  | 链接: https://pan.baidu.com/s/1MsnoKyaGYOHB_q6iRhQTbw 提取码: aba9  |
+| yolov7  | 链接: https://pan.baidu.com/s/1kqL8MuXst4gHFOHAMjYnIg 提取码: 4rx5  |
+| yolov7_cutpff  | 链接: https://pan.baidu.com/s/1I02Y4JIZwgfn1V9wVdLDHA 提取码: grxn  |
+| yolov8  | 链接: https://pan.baidu.com/s/13bKUAFLoUNAwrh1ld6WsAg 提取码: afih  |
+| yolov8-seg  | 链接: https://pan.baidu.com/s/1J9JbnRkv9MTMPz_ZQeJy7w 提取码: ycj3  |
+| yolov8-pose  | 链接: https://pan.baidu.com/s/1omtctTUSMxD7mlDeQrpDTA 提取码: p8yq  |
+| yolox  | 链接: https://pan.baidu.com/s/1nNM0NeTuWpA_apnG7cADFQ 提取码: dub5  |
+| rt-detr  | 链接: https://pan.baidu.com/s/1zpEWfwiNLVkQjEiGXDfjpA 提取码: fddj  |
+| pointpillar  | 链接: https://pan.baidu.com/s/1InmhQGKGygoNvvp72XuyqQ 提取码: 9qte  |
 
 # Reference
 Thanks for the following items
