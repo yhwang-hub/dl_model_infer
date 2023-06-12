@@ -103,7 +103,7 @@ AiInfer
 | ------------- | ------------- |
 | yolov5  | 链接: https://pan.baidu.com/s/1MsnoKyaGYOHB_q6iRhQTbw 提取码: aba9  |
 | yolov7  | 链接: https://pan.baidu.com/s/1kqL8MuXst4gHFOHAMjYnIg 提取码: 4rx5  |
-| yolov7_cutpff  | 链接: https://pan.baidu.com/s/1I02Y4JIZwgfn1V9wVdLDHA 提取码: grxn  |
+| yolov7_cutoff  | 链接: https://pan.baidu.com/s/1I02Y4JIZwgfn1V9wVdLDHA 提取码: grxn  |
 | yolov8  | 链接: https://pan.baidu.com/s/13bKUAFLoUNAwrh1ld6WsAg 提取码: afih  |
 | yolov8-seg  | 链接: https://pan.baidu.com/s/1J9JbnRkv9MTMPz_ZQeJy7w 提取码: ycj3  |
 | yolov8-pose  | 链接: https://pan.baidu.com/s/1omtctTUSMxD7mlDeQrpDTA 提取码: p8yq  |
