@@ -11,7 +11,6 @@ namespace ai
 {
     namespace cvUtil
     {
-
         using namespace std;
         using namespace ai::utils;
 
@@ -50,7 +49,8 @@ namespace ai
             V7 = 3,
             V8 = 5,
             V8Seg = 6, // yolov8 instance segmentation
-            V8Pose = 7
+            V8Pose = 7,
+            V7Pose = 8
         };
 
         // 可以通过该结构体来初始化对输入的配置

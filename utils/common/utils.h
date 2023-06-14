@@ -1,5 +1,6 @@
 #ifndef _UTILS_HPP_
 #define _UTILS_HPP_
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <numeric>
@@ -60,7 +61,6 @@ namespace ai
             void *start_, *stop_;
             void *stream_;
         };
-
     }
 }
 #define INFO(...) ai::utils::__log_func(__FILE__, __LINE__, __VA_ARGS__)

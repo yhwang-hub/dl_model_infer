@@ -100,7 +100,6 @@ namespace ai
             std::cout << "num of warmup runs set to: " << s->number_of_warmup_runs << "\n";
             std::cout << "output directory set to: " << s->output_dir << "\n";
             std::cout << "inference task set to: " << s->infer_task << "\n";
-
             std::cout << "***** Display run Config: end *****\n\n";
         }
     }
