@@ -24,6 +24,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.06.08 update pointpillar
 - 2023.06.09 update yolov7_cutoff
 - 2023.06.14 update yolov7-pose
+- 2023.06.15 Adding Producer-Consumer Inference Model for yolov8-det
 
 # Environment
 The following environments have been tested：
@@ -50,6 +51,23 @@ The following environments have been tested：
   - https://github.com/yhwang-hub/dl_model_deploy/tree/master/yolov7_cutoff_TensorRT
 - yolov7-pose model export tutorial
   - https://github.com/yhwang-hub/dl_model_infer/tree/master/application/yolov7_pose_app
+# Use of CPM (wrapping the inference as producer-consumer)
+- cpm.hpp Producer-consumer model
+  - For direct inference tasks, cpm.hpp can be turned into an automatic multi-batch producer-consumer model
+```
+cpm::Instance<BoxArray, Image, yolov8_detector> cpmi;
+auto result_futures = cpmi.commits(yoloimages);
+for (int ib = 0; ib < result_futures.size(); ++ib)
+{
+    auto objs = result_futures[ib].get();
+    auto image = images[ib].clone();
+    for (auto& obj : objs)
+    {
+        process....
+    }
+}
+```
+
 # Quick Start
 Take yolov8 target detection as an example，modify CMakeLists.txt and run the command below：
 ```
@@ -87,12 +105,13 @@ AiInfer
    |--utils # tools directory
      |--backend # here implements the reasoning class of backend
      |--common # There are some commonly used tools in it
-       |--arg_parsing.hpp # Command line parsing class, similar to python's argparse
-       |--cuda_utils.hpp # There are some common tool functions of cuda in it
-       |--cv_cpp_utils.hpp # There are some cv-related utility functions in it
-       |--memory.hpp # Tools related to cpu and gpu memory application and release
-       |--model_info.hpp # Commonly used parameter definitions for pre- and post-processing of the model, such as mean variance, nms threshold, etc.
-       |--utils.hpp # Commonly used tool functions in cpp, timing, mkdir, etc.
+       |--arg_parsing.h # Command line parsing class, similar to python's argparse
+       |--cuda_utils.h # There are some common tool functions of cuda in it
+       |--cv_cpp_utils.h # There are some cv-related utility functions in it
+       |--memory.h # Tools related to cpu and gpu memory application and release
+       |--model_info.h # Commonly used parameter definitions for pre- and post-processing of the model, such as mean variance, nms threshold, etc.
+       |--utils.h # Commonly used tool functions in cpp, timing, mkdir, etc.
+       |--cpm.h # Producer-Consumer Inference Model
      |--post_process # Post-processing implementation directory, cuda post-processing acceleration, if you have custom post-processing, you can also write it here
      |--pre_process # pre-processing implementation directory, cuda pre-processing acceleration, if you have custom pre-processing can also be written here
      |--tracker # This is the implementation of the target detection and tracking library, which has been decoupled and can be deleted directly if you don’t want to use it
