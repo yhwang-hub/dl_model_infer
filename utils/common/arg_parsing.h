@@ -26,6 +26,7 @@ namespace ai
             int number_of_warmup_runs = 1; // 模型推理的预热，用来激活cuda核，是的计时更加准确
             std::string output_dir = "";   // 模型推理结果图片存储位置
             std::string infer_task = "";   // 模型推理执行的任务
+            bool perf = false;             // 生产者消费者模型推理
 
             // 下面是类名
             const std::vector<std::string> classlabels{"person", "bicycle", "car",

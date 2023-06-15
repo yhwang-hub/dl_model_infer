@@ -4,7 +4,7 @@ namespace tensorrt_infer
 {
     namespace yolov8_infer
     {
-        void yolov8_detector::initParameters(const std::string& engine_file, float score_thr, float nms_thr)
+        bool yolov8_detector::initParameters(const std::string& engine_file, float score_thr, float nms_thr)
         {
             if (!file_exist(engine_file))
             {
@@ -45,6 +45,8 @@ namespace tensorrt_infer
                 model_info->m_postProcCfg.MAX_IMAGE_BOXES * model_info->m_postProcCfg.NUM_BOX_ELEMENT;
 
             CHECK(cudaStreamCreate(&cu_stream)); // 创建cuda流
+
+            return true;
         }
 
         yolov8_detector::~yolov8_detector()
@@ -261,6 +263,40 @@ namespace tensorrt_infer
             checkRuntime(cudaStreamSynchronize(cu_stream)); // 阻塞异步流，等流中所有操作执行完成才会继续执行
             
             return parser_box(num_image);
+        }
+
+        yolov8_detector* loadraw(
+            const std::string &engine_file,
+            DetectorType type,
+            float confidence_threshold,
+            float nms_threshold
+        )
+        {
+            yolov8_detector* impl = new yolov8_detector();
+            if (!impl->initParameters(engine_file, confidence_threshold, nms_threshold))
+            {
+                delete impl;
+                impl = nullptr;
+            }
+
+            return impl;
+        }
+
+        std::shared_ptr<yolov8_detector> load(
+            const std::string& engine_file,
+            DetectorType type,
+            float confidence_threshold,
+            float nms_threshold
+        )
+        {
+            return std::shared_ptr<yolov8_detector>(
+                (yolov8_detector*)loadraw(
+                    engine_file,
+                    type,
+                    confidence_threshold,
+                    nms_threshold
+                )
+            );
         }
     }
 }

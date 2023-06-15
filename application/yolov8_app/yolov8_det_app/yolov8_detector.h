@@ -28,7 +28,7 @@ namespace tensorrt_infer
         public:
             yolov8_detector() = default;
             ~yolov8_detector();
-            void initParameters(const std::string& engine_file, float score_thr = 0.5f, float nms_thr = 0.45f); // 初始化参数
+            bool initParameters(const std::string& engine_file, float score_thr = 0.5f, float nms_thr = 0.45f); // 初始化参数
             void adjust_memory(int batch_size); // 由于batch_size是动态的，所以需要对gpu/cpu内存进行动态的申请
 
             // forward
@@ -60,6 +60,20 @@ namespace tensorrt_infer
             // time
             Timer timer;
         };
+
+        std::shared_ptr<yolov8_detector> load(
+            const std::string& engine_file,
+            DetectorType type,
+            float confidence_threshold = 0.25f,
+            float nms_threshold = 0.5f
+        );
+
+        yolov8_detector* loadraw(
+            const std::string &engine_file,
+            DetectorType type,
+            float confidence_threshold,
+            float nms_threshold
+        );
     }
 }
 

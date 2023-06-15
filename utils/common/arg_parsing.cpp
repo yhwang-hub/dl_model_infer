@@ -15,6 +15,7 @@ namespace ai
                 << "--warmup_runs, -w: number of warmup runs can be [2=default]\n"
                 << "--output_dir, -o: storage path for model inference results can be [''=default]\n"
                 << "--infer_task, -t: inference task for model inference can be [''=default]\n"
+                << "--perf, -p: Whether to use the producer consumer model [false=default]\n"
                 << "--help, -h: output help command info\n"
                 << "\n";
         }
@@ -34,13 +35,14 @@ namespace ai
                     {"warmup_runs", required_argument, nullptr, 'w'},
                     {"output_dir", required_argument, nullptr, 'o'},
                     {"infer_task", required_argument, nullptr, 't'},
+                    {"perf", required_argument, nullptr, 'p'},
                     {nullptr, 0, nullptr, 0}};
 
                 /* getopt_long stores the option index here. */
                 int option_index = 0;
 
                 c = getopt_long(argc, argv,
-                                "f:i:b:s:g:c:w:o:t:", long_options,
+                                "f:i:b:s:g:c:w:o:t:p:", long_options,
                                 &option_index);
 
                 /* Detect the end of the options. */
@@ -76,6 +78,9 @@ namespace ai
                 case 't':
                     s->infer_task = optarg;
                     break;
+                case 'p':
+                    s->perf = optarg;
+                    break;
                 case 'h':
                 case '?':
                     displayUsage();
@@ -100,6 +105,7 @@ namespace ai
             std::cout << "num of warmup runs set to: " << s->number_of_warmup_runs << "\n";
             std::cout << "output directory set to: " << s->output_dir << "\n";
             std::cout << "inference task set to: " << s->infer_task << "\n";
+            std::cout << "perf set to: " << s->perf << "\n";
             std::cout << "***** Display run Config: end *****\n\n";
         }
     }

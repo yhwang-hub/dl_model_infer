@@ -29,7 +29,14 @@ int main(int argc, char *argv[])
     }
     else if (s.infer_task == "yolov8_det")
     {
-        yolov8_trt_inference(&s);
+        if (s.perf)
+        {
+            yolov8_trt_inference_perf(&s);
+        }
+        else
+        {
+            yolov8_trt_inference(&s);
+        }
     }
     else if (s.infer_task == "yolov8_seg")
     {
