@@ -64,9 +64,6 @@ namespace tensorrt_infer
             // 使用自定义的Memory类用来申请gpu/cpu内存
             std::vector<std::shared_ptr<Memory<unsigned char>>> preprocess_buffers_;
             Memory<float> input_buffer_, output_boxarray_;
-            // std::vector<Memory<float>> det_cls_predicts_(num_stage);
-            // std::vector<Memory<float>> det_bbox_predicts_(num_stage);
-            // std::vector<Memory<float>> det_obj_predicts_(num_stage);
             Memory<float> det_cls_predicts_[num_stage];
             Memory<float> det_bbox_predicts_[num_stage];
             Memory<float> det_obj_predicts_[num_stage];

@@ -205,10 +205,10 @@ namespace tensorrt_infer
                         float right  = x_center + width * 0.5f;
                         float bottom = y_center + height * 0.5f;
 
-                        left    = affine_matrix_host[0] * left  + affine_matrix_host[1] * top,    + affine_matrix_host[2];
-                        top     = affine_matrix_host[3] * left  + affine_matrix_host[4] * top,    + affine_matrix_host[5];
-                        right   = affine_matrix_host[0] * right + affine_matrix_host[1] * bottom, + affine_matrix_host[2];
-                        bottom  = affine_matrix_host[3] * right + affine_matrix_host[4] * bottom, + affine_matrix_host[5];
+                        left    = affine_matrix_host[0] * left  + affine_matrix_host[1] * top    + affine_matrix_host[2];
+                        top     = affine_matrix_host[3] * left  + affine_matrix_host[4] * top    + affine_matrix_host[5];
+                        right   = affine_matrix_host[0] * right + affine_matrix_host[1] * bottom + affine_matrix_host[2];
+                        bottom  = affine_matrix_host[3] * right + affine_matrix_host[4] * bottom + affine_matrix_host[5];
 
                         *boxarray_cpu += 1;
                         int index = *boxarray_cpu;

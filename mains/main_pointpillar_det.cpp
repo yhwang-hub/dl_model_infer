@@ -23,6 +23,7 @@
 
 #include "../utils/common/pointpillar_params.h"
 #include "../application/pointpillar_app/pointpillar.h"
+#include "main_pointpillar_det.h"
 
 #define checkCudaErrors(status)                                   \
 {                                                                 \
@@ -128,12 +129,14 @@ void SaveBoxPred(std::vector<Bndbox> boxes, std::string file_name)
     return;
 };
 
-int pointpillar_det_trt_inference()
+void pointpillar_det_trt_inference(ai::arg_parsing::Settings *s)
 {
     Getinfo();
 
     cudaEvent_t start, stop;
     float elapsedTime = 0.0f;
+    float malloc_tm = 0.0;
+    float mmcopy_tm = 0.0;
     cudaStream_t stream = NULL;
 
     checkCudaErrors(cudaEventCreate(&start));
@@ -147,63 +150,76 @@ int pointpillar_det_trt_inference()
 
     PointPillar pointpillar(Model_File, stream);
 
-    for (int i = 0; i < 10; i++)
+    for (int c = 0; c < s->loop_count; c++)
     {
-        std::string dataFile = Data_File;
+        for (int i = 0; i < 10; i++)
+        {
+            std::string dataFile = Data_File;
 
-        std::stringstream ss;
+            std::stringstream ss;
 
-        ss<< i;
+            ss<< i;
 
-        int n_zero = 6;
-        std::string _str = ss.str();
-        std::string index_str = std::string(n_zero - _str.length(), '0') + _str;
-        dataFile += index_str;
-        dataFile +=".bin";
+            int n_zero = 6;
+            std::string _str = ss.str();
+            std::string index_str = std::string(n_zero - _str.length(), '0') + _str;
+            dataFile += index_str;
+            dataFile +=".bin";
 
-        std::cout << "<<<<<<<<<<<" <<std::endl;
-        std::cout << "load file: "<< dataFile <<std::endl;
+            std::cout << "<<<<<<<<<<<" <<std::endl;
+            std::cout << "load file: "<< dataFile <<std::endl;
 
-        //load points cloud
-        unsigned int length = 0;
-        void *data = NULL;
-        std::shared_ptr<char> buffer((char *)data, std::default_delete<char[]>());
-        loadData(dataFile.data(), &data, &length);
-        buffer.reset((char *)data);
+            //load points cloud
+            unsigned int length = 0;
+            void *data = NULL;
+            std::shared_ptr<char> buffer((char *)data, std::default_delete<char[]>());
+            loadData(dataFile.data(), &data, &length);
+            buffer.reset((char *)data);
 
-        float* points = (float*)buffer.get();
-        size_t points_size = length/sizeof(float)/4;
+            float* points = (float*)buffer.get();
+            size_t points_size = length/sizeof(float)/4;
 
-        std::cout << "find points num: "<< points_size <<std::endl;
+            std::cout << "find points num: "<< points_size <<std::endl;
 
-        float *points_data = nullptr;
-        unsigned int points_data_size = points_size * 4 * sizeof(float);
-        checkCudaErrors(cudaMallocManaged((void **)&points_data, points_data_size));
-        checkCudaErrors(cudaMemcpy(points_data, points, points_data_size, cudaMemcpyDefault));
-        checkCudaErrors(cudaDeviceSynchronize());
+            float *points_data = nullptr;
+            unsigned int points_data_size = points_size * 4 * sizeof(float);
 
-        cudaEventRecord(start, stream);
+            checkCudaErrors(cudaEventRecord(start, stream));
+            checkCudaErrors(cudaMallocManaged((void **)&points_data, points_data_size));
+            checkCudaErrors(cudaEventRecord(stop, stream));
+            checkCudaErrors(cudaDeviceSynchronize());
+            checkCudaErrors(cudaEventElapsedTime(&malloc_tm, start, stop));
+            std::cout << "TIME: malloc: " << malloc_tm << " ms." << std::endl;
+            checkCudaErrors(cudaEventRecord(start, stream));
 
-        pointpillar.doinfer(points_data, points_size, nms_pred);
-        cudaEventRecord(stop, stream);
-        cudaEventSynchronize(stop);
-        cudaEventElapsedTime(&elapsedTime, start, stop);
-        std::cout<<"TIME: pointpillar: "<< elapsedTime <<" ms." <<std::endl;
+            checkCudaErrors(cudaMemcpy(points_data, points, points_data_size, cudaMemcpyDefault));
+            checkCudaErrors(cudaEventRecord(stop, stream));
+            checkCudaErrors(cudaDeviceSynchronize());
+            checkCudaErrors(cudaEventElapsedTime(&mmcopy_tm, start, stop));
+            std::cout << "TIME: mmcopy: " << mmcopy_tm << " ms." << std::endl;
 
-        checkCudaErrors(cudaFree(points_data));
+            checkCudaErrors(cudaDeviceSynchronize());
 
-        std::cout<<"Bndbox objs: "<< nms_pred.size()<<std::endl;
-        std::string save_file_name = Save_Dir + index_str + ".txt";
-        SaveBoxPred(nms_pred, save_file_name);
+            cudaEventRecord(start, stream);
+            pointpillar.doinfer(points_data, points_size, nms_pred);
+            cudaEventRecord(stop, stream);
+            cudaEventSynchronize(stop);
+            cudaEventElapsedTime(&elapsedTime, start, stop);
+            std::cout<<"TIME: pointpillar: "<< elapsedTime <<" ms." <<std::endl;
 
-        nms_pred.clear();
+            checkCudaErrors(cudaFree(points_data));
 
-        std::cout << ">>>>>>>>>>>" <<std::endl;
+            std::cout<<"Bndbox objs: "<< nms_pred.size()<<std::endl;
+            std::string save_file_name = Save_Dir + index_str + ".txt";
+            SaveBoxPred(nms_pred, save_file_name);
+
+            nms_pred.clear();
+
+            std::cout << ">>>>>>>>>>>" <<std::endl;
+        }   
     }
 
     checkCudaErrors(cudaEventDestroy(start));
     checkCudaErrors(cudaEventDestroy(stop));
     checkCudaErrors(cudaStreamDestroy(stream));
-
-    return 0;
 }

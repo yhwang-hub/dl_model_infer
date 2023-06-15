@@ -14,6 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#ifndef _POINTPILLAR_H
+#define _POINTPILLAR_H
+
 #include <memory>
 
 #include "cuda_runtime.h"
@@ -103,3 +107,4 @@ class PointPillar {
     int doinfer(void*points, unsigned int point_size, std::vector<Bndbox> &res);
 };
 
+#endif

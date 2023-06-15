@@ -3,6 +3,11 @@ namespace ai
 {
     namespace postprocess
     {
+        // static _device__ float sigmoid(const float x)
+        // { 
+        //     return 1.0f / (1.0f + expf(-x));
+        // }
+
         // keepflag主要是用来进行nms时候判断是否将该框抛弃
         // const int NUM_BOX_ELEMENT = 7; // left, top, right, bottom, confidence, class, keepflag
         static __device__ void affine_project(float *matrix, float x, float y, float *ox, float *oy)
