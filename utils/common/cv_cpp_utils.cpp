@@ -51,6 +51,7 @@ namespace ai
 
             if (detectortype == DetectorType::V7 ||
                 detectortype == DetectorType::V5 ||
+                detectortype == DetectorType::V8 ||
                 detectortype == DetectorType::X)
             {
                 i2d[2] = 0;
