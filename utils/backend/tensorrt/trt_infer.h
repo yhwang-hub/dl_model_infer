@@ -5,6 +5,7 @@
 #include <logger.h>
 #include <parserOnnxConfig.h>
 #include <NvInfer.h>
+#include "NvInferPlugin.h"
 
 #include <memory>
 #include "../backend_infer.h"
