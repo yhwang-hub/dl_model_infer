@@ -12,7 +12,7 @@ rm -rf cuda_res/*
 
 # ./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det
 # ./infer -f yolov8n.transd.trt -i res/bus.jpg -b 16 -c 10 -o cuda_res -t yolov8_det
-./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det -p true
+# ./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det -p true
 
 # ./infer -f yolov8n-seg.b1.transd.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -t yolov8_seg
 
@@ -42,5 +42,7 @@ rm -rf cuda_res/*
 
 # ./infer -f yolov7-w6-pose_sim.trt -i res/bus.jpg -b 1 -c 2 -o cuda_res -t yolov7_pose
 # ./infer -f yolov7-w6-pose_sim.trt -i res/person.jpg -b 1 -c 2 -o cuda_res -t yolov7_pose
+
+./infer -f smoke_dla34.onnx -i res/kitti_000008.png -b 1 -c 1 -s 0.2 -o cuda_res -t smoke_det
 
 cd ..

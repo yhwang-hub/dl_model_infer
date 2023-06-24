@@ -63,5 +63,9 @@ namespace ai
         };
     }
 }
+static float Sigmoid(float x)
+{
+    return 1.0f / (1.0f + expf(-x));
+}
 #define INFO(...) ai::utils::__log_func(__FILE__, __LINE__, __VA_ARGS__)
 #endif // _UTILS_HPP_

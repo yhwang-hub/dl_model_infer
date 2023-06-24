@@ -15,7 +15,7 @@ namespace trt
             runtime_ = shared_ptr<IRuntime>(createInferRuntime(sample::gLogger.getTRTLogger()), destroy_nvidia_pointer<IRuntime>);
             if (runtime_ == nullptr)
                 return false;
-
+            initLibNvInferPlugins(&(sample::gLogger.getTRTLogger()), "");
             engine_ = shared_ptr<ICudaEngine>(runtime_->deserializeCudaEngine(trtFile.data(), trtFile.size(), nullptr), destroy_nvidia_pointer<ICudaEngine>);
             if (engine_ == nullptr)
                 return false;

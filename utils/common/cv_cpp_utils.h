@@ -1,6 +1,7 @@
 #ifndef _CV_CPP_UTILS_HPP_
 #define _CV_CPP_UTILS_HPP_
 
+#include <iostream>
 #include <tuple>
 #include <string.h>
 #include <vector>
@@ -50,7 +51,8 @@ namespace ai
             V8 = 5,
             V8Seg = 6, // yolov8 instance segmentation
             V8Pose = 7,
-            V7Pose = 8
+            V7Pose = 8,
+            SMOKE = 9
         };
 
         // 可以通过该结构体来初始化对输入的配置
@@ -101,6 +103,29 @@ namespace ai
         };
         typedef std::vector<Box> BoxArray;
         typedef std::vector<BoxArray> BatchBoxArray;
+
+        struct BboxDim
+        {
+            float x, y, z;
+
+            BboxDim() = default;
+            BboxDim(float x_, float y_, float z_)
+                    : x(x_),
+                      y(y_),
+                      z(z_) {}
+        };
+
+        struct CubeBox
+        {
+            float score;
+            cv::Point2f cube_point[8];
+
+            CubeBox() = default;
+            virtual ~CubeBox() = default;
+        };
+
+        typedef std::vector<CubeBox> CubeArray;
+        typedef std::vector<CubeArray> BatchCubeArray;
 
         struct InstanceSegmentMap
         {
