@@ -44,7 +44,7 @@ namespace ai
             size_t IMAGE_MAX_BOXES_ADD_ELEMENT{0}; // MAX_IMAGE_BOXES * NUM_BOX_ELEMENT
 
             int MAX_IMAGE_CUBES = 100;
-            int NUM_CUBE_ELEMENT = 17;
+            int NUM_CUBE_ELEMENT = 18;
             size_t IMAGE_MAX_CUBES_ADD_ELEMENT{0};
 
             int num_classes_ = 0; // 类别，可以通过模型输出维度自动推出，也可以设置
