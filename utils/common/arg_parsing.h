@@ -57,6 +57,7 @@ namespace ai
                                                        "vase", "scissors", "teddy bear",
                                                        "hair drier", "toothbrush"};
         };
+        const std::vector<std::string> mmdet3d_classlabels{"Pedestrian", "Cyclist", "Car"};
         int parseArgs(int argc, char **argv, Settings *s); // 解析命令行输入的参数并赋值给Settings
         void printArgs(Settings *s);                       // 打印所有的参数
     }

@@ -117,6 +117,7 @@ namespace ai
 
         struct CubeBox
         {
+            int class_id;
             float score;
             cv::Point2f cube_point[8];
 

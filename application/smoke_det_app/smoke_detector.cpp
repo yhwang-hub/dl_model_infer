@@ -299,6 +299,7 @@ namespace tensorrt_infer
                     *pout_item++ = point_y;
                 }
                 *pout_item++ = score;
+                *pout_item++ = class_id;
                 *cubearray_host += 1;
             }
         }
@@ -323,6 +324,7 @@ namespace tensorrt_infer
                         cubebox.cube_point[c].y = pbox[2 * c + 1];
                     }
                     cubebox.score = pbox[16];
+                    cubebox.class_id = pbox[17];
                     output.push_back(cubebox);
                 }
             }
