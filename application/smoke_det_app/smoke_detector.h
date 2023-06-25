@@ -31,7 +31,6 @@ namespace tensorrt_infer
             smoke_detector() = default;
             ~smoke_detector();
 
-            bool onnxToTRTModel(const std::string& modelFile, const std::string& engine_file);
             void initParameters(
                 const std::string& modelFile,
                 float score_thr

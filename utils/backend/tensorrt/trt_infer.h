@@ -74,6 +74,7 @@ namespace trt
         Infer *loadraw(const std::string &file);
         std::shared_ptr<Infer> load(const std::string &file);
 
+        bool onnxToTRTModel(const std::string& modelFile, const std::string& engine_file);
     }
 }
 

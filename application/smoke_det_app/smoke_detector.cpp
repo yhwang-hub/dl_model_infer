@@ -4,73 +4,13 @@ namespace tensorrt_infer
 {
     namespace smoke_det_infer
     {
-        bool smoke_detector::onnxToTRTModel(const std::string& modelFile, const std::string& engine_file)
-        {
-            std::cout << "Building TRT engine."<<std::endl;
-            // define builder
-            auto builder = (nvinfer1::createInferBuilder(sample::gLogger.getTRTLogger()));
-
-            // define network
-            const auto explicitBatch = 1U << static_cast<uint32_t>(nvinfer1::NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
-            auto network = (builder->createNetworkV2(explicitBatch));
-
-            // define onnxparser
-            auto parser = (nvonnxparser::createParser(*network, sample::gLogger.getTRTLogger()));
-            if (!parser->parseFromFile(modelFile.data(), static_cast<int>(nvinfer1::ILogger::Severity::kWARNING)))
-            {
-                std::cerr << ": failed to parse onnx model file, please check the onnx version and trt support op!"
-                        << std::endl;
-                exit(-1);
-            }
-
-            // define config
-            auto networkConfig = builder->createBuilderConfig();
-#if defined (__arm64__) || defined (__aarch64__) 
-            networkConfig->setFlag(nvinfer1::BuilderFlag::kFP16);
-            std::cout << "Enable fp16!" << std::endl;
-#endif
-            // set max batch size
-            builder->setMaxBatchSize(1);
-            // set max workspace
-            networkConfig->setMaxWorkspaceSize(size_t(1) << 30);
-
-            nvinfer1::ICudaEngine *engine_ = (builder->buildEngineWithConfig(*network, *networkConfig));
-
-            if (engine_ == nullptr)
-            {
-                std::cerr << ": engine init null!" << std::endl;
-                exit(-1);
-            }
-
-            // serialize the engine, then close everything down
-            auto trtModelStream = (engine_->serialize());
-            std::fstream trtOut(engine_file, std::ifstream::out);
-            if (!trtOut.is_open())
-            {
-                std::cout << "Can't store trt cache.\n";
-                exit(-1);
-            }
-
-            trtOut.write((char*)trtModelStream->data(), trtModelStream->size());
-            trtOut.close();
-            trtModelStream->destroy();
-
-            engine_->destroy();
-            networkConfig->destroy();
-            parser->destroy();
-            network->destroy();
-            builder->destroy();
-
-            return true;
-        }
-
         void smoke_detector::initParameters(const std::string& modelFile, float score_thr)
         {
             std::string engine_file = modelFile + ".trt";
             if (!file_exist(engine_file))
             {
                 INFO("engine_file is not exist, start building......");
-                if (onnxToTRTModel(modelFile, engine_file))
+                if (trt::infer::onnxToTRTModel(modelFile, engine_file))
                 {
                     INFO("end build......");
                 }
