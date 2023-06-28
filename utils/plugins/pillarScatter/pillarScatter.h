@@ -22,7 +22,7 @@
 #include <string>
 #include <cuda_runtime_api.h>
 #include "NvInferPlugin.h"
-#include "../../utils/common/pointpillar_kernel.h"
+#include "../../common/pointpillar_kernel.h"
 
 namespace nvinfer1
 {

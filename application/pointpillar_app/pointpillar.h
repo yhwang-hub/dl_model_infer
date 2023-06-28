@@ -28,6 +28,7 @@
 
 #include "../../utils/postprocess/pointpillar/postprocess.h"
 #include "../../utils/preprocess/pointpillar/preprocess.h"
+#include "../../utils/plugins/pillarScatter/pillarScatter.h"
 
 #define PERFORMANCE_LOG 1
 

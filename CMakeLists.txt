@@ -84,6 +84,8 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/utils/postprocess/pointpillar/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv/*.cu
+    ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter/*.cpp
+    ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter/*.cu
     ${TensorRT_ROOT}/samples/common/logger.cpp # 引用对应版本的logger.cpp，用来适应多版本
     ${TensorRT_ROOT}/samples/common/sampleOptions.cpp 
     ${TensorRT_ROOT}/samples/common/sampleUtils.cpp
@@ -143,6 +145,8 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_pose_app
+        ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv
+        ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter
         DESTINATION include/
         FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h" PATTERN "*.cu")
 
