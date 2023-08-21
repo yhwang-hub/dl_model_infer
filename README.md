@@ -26,6 +26,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.06.14 update yolov7-pose
 - 2023.06.15 Adding Producer-Consumer Inference Model for yolov8-det
 - 2023.06.24 update 3D objection detection algorithm smoke
+- 2023.08.21 update 3D objection detection algorithm BEVDet
 
 # Environment
 The following environments have been tested：
@@ -36,6 +37,8 @@ The following environments have been tested：
 - gcc5.4.0
 - cmake-3.24.0
 - opencv-4.5.5
+- Eigen3
+- yaml
 
 # Model Export Tutorial
 - RT-DETR model export tutorial
@@ -54,6 +57,9 @@ The following environments have been tested：
   - https://github.com/yhwang-hub/dl_model_infer/tree/master/application/yolov7_pose_app
 - smoke model export tutorial
   - https://github.com/yhwang-hub/dl_model_infer/blob/dev/application/smoke_det_app/README.md
+- BEVDet model export tutorial
+  - https://github.com/LCH1238/BEVDet/blob/export/README.md
+  - Link your own nusecnes dataset under the application/bevdet_app/data path
 # Use of CPM (wrapping the inference as producer-consumer)
 - cpm.hpp Producer-consumer model
   - For direct inference tasks, cpm.hpp can be turned into an automatic multi-batch producer-consumer model
