@@ -17,15 +17,36 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdarg.h>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+#include <thrust/sort.h>
+#include <thrust/functional.h>
+#include <yaml-cpp/yaml.h>
 #include "cuda_utils.h"
 #define strtok_s strtok_r
 
 using namespace std;
+typedef unsigned char uchar;
 
 namespace ai
 {
     namespace utils
     {
+        struct bevBox
+        {
+            float x, y, z, l, w, h, r;
+            float vx = 0.0f;  // optional
+            float vy = 0.0f;  // optional
+            float score;
+            int label;
+            bool is_drop;  // for nms
+            bevBox() = default;
+            bevBox(float x, float y, float z, float l, float w, float h, float r,
+                    float vx, float vy, float score, int label, bool is_drop)
+                    : x(x), y(y), z(z), l(l), w(w), h(h), r(r),
+                    vx(vx), vy(vy), score(score), label(label), is_drop(is_drop){}
+        };
+
         // 一些常用的函数的定义
         std::string file_name(const std::string &path, bool include_suffix);
         void __log_func(const char *file, int line, const char *fmt, ...);
@@ -46,7 +67,14 @@ namespace ai
         bool pattern_match_body(const char *str, const char *matcher, bool igrnoe_case);
         vector<string> find_files(
             const string &directory,
-            const string &filter = "*", bool findDirectory = false, bool includeSubDirectory = false);
+            const string &filter = "*",
+            bool findDirectory = false,
+            bool includeSubDirectory = false);
+        void Boxes2Txt(const std::vector<bevBox> &boxes, std::string file_name, bool with_vel=false);
+        void Egobox2Lidarbox(const std::vector<bevBox>& ego_boxes,
+                             std::vector<bevBox> &lidar_boxes,
+                             const Eigen::Quaternion<float>& lidar2ego_rot,
+                             const Eigen::Translation3f &lidar2ego_trans);
 
         // 时间计时类，
         class Timer
@@ -68,4 +96,5 @@ static float Sigmoid(float x)
     return 1.0f / (1.0f + expf(-x));
 }
 #define INFO(...) ai::utils::__log_func(__FILE__, __LINE__, __VA_ARGS__)
+#define DIVUP(m, n) ((m) / (n) + ((m) % (n) > 0))
 #endif // _UTILS_HPP_
