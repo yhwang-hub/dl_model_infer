@@ -5,6 +5,7 @@
 #include <cuda_runtime.h>
 #include "../common/cuda_utils.h"
 #include "../common/cv_cpp_utils.h"
+#include "../kernels/iou3d_nms/iou3d_nms.h"
 
 #define BLOCK_SIZE 32
 
@@ -15,6 +16,66 @@ namespace ai
 {
     namespace postprocess
     {
+        using namespace ai::utils;
+
+        class BEVDetPostprocessGPU
+        {
+        public:
+            BEVDetPostprocessGPU(){};
+            BEVDetPostprocessGPU(const int _class_num, 
+                            const float _score_thresh,
+                            const float _nms_thresh, 
+                            const int _nms_pre_maxnum,
+                            const int _nms_post_maxnum, 
+                            const int _down_sample, 
+                            const int _output_h, 
+                            const int _output_w, 
+                            const float _x_step, 
+                            const float _y_step,
+                            const float _x_start, 
+                            const float _y_start,
+                            const std::vector<int>& _class_num_pre_task,
+                            const std::vector<float>& _nms_rescale_factor);
+
+            void DoPostprocess(std::vector<void*> bev_buffer, std::vector<bevBox>& out_detections);
+            ~BEVDetPostprocessGPU();
+
+        private:
+            int class_num;
+            float score_thresh;
+            float nms_thresh;
+            int nms_pre_maxnum;
+            int nms_post_maxnum;
+            int down_sample;
+            int output_h;
+            int output_w;
+            float x_step;
+            float y_step;
+            float x_start;
+            float y_start;
+            int map_size;
+            int task_num;
+
+            std::vector<int> class_num_pre_task;
+            std::vector<float> nms_rescale_factor;
+
+            std::unique_ptr<Iou3dNmsCuda> iou3d_nms;
+
+            float* boxes_dev = nullptr;
+            float* score_dev = nullptr;
+            int* cls_dev = nullptr;
+            int* valid_box_num = nullptr;
+            int* sorted_indices_dev = nullptr;
+            long* keep_data_host = nullptr;
+            int* sorted_indices_host = nullptr;
+            float* boxes_host = nullptr;
+            float* score_host = nullptr;
+            int* cls_host = nullptr;
+
+            float* nms_rescale_factor_dev = nullptr;
+
+        };
+
         // 一般用于对yolov3/v5/v7/yolox的解析，如果你有其他任务模型的后处理需要cuda加速，也可写在这个地方
         // 默认一张图片最多的检测框是1024，可以通过传参或者直接修改默认参数改变
         void decode_detect_kernel_invoker(float *predict, int num_bboxes, int num_classes, int output_cdim,

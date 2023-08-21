@@ -11,6 +11,15 @@
 #define INTER_RESIZE_COEF_BITS 11
 #define INTER_RESIZE_COEF_SCALE (1 << INTER_RESIZE_COEF_BITS) // 2048
 #define CAST_BITS (INTER_RESIZE_COEF_BITS << 1)
+#define CUDA_1D_KERNEL_LOOP(i, n) \
+  for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); i += blockDim.x * gridDim.x)
+
+static const int THREADS_PER_BLOCK = 16;
+static const int THREADS_PER_BLOCK_NMS = sizeof(unsigned long long) * 8;
+static const float EPS = 1e-8;
+static const int NUM_THREADS = 64;
+static const int kBoxBlockSize = 9;
+static const int MAXTENSORDIMS = 10;
 
 #define CHECK(status)                                          \
     do                                                         \

@@ -58,6 +58,86 @@ namespace ai
             PreprocessImageConfig m_preProcCfg;   // 预处理配置
             PostprocessImageConfig m_postProcCfg; // 后处理配置
         };
+
+        struct BEVPreprocessConfig
+        {
+            int N_img;
+
+            int src_img_h;
+            int src_img_w;
+            int input_img_h;
+            int input_img_w;
+            int crop_h;
+            int crop_w;
+            float resize_radio;
+            int down_sample;
+            int feat_h;
+            int feat_w;
+            int bev_h;
+            int bev_w;
+            int bevpool_channel;
+
+            float depth_start;
+            float depth_end;
+            float depth_step;
+            int depth_num;
+
+            float x_start;
+            float x_end;
+            float x_step;
+            int xgrid_num;
+
+            float y_start;
+            float y_end;
+            float y_step;
+            int ygrid_num;
+
+            float z_start;
+            float z_end;
+            float z_step;
+            int zgrid_num;
+
+            ai::cvUtil::BboxDim mean;
+            ai::cvUtil::BboxDim std;
+
+            ai::cvUtil::Sampler pre_sample;
+
+            std::vector<Eigen::Matrix3f> cams_intrin;
+            std::vector<Eigen::Quaternion<float>> cams2ego_rot;
+            std::vector<Eigen::Translation3f> cams2ego_trans;
+
+            Eigen::Matrix3f post_rot;
+            Eigen::Translation3f post_trans;
+
+            int valid_feat_num;
+            int unique_bev_num;
+        };
+
+        struct BEVPostprocessConfig
+        {
+            bool use_depth;
+            bool use_adj;
+            int adj_num;
+
+            int class_num;
+            float score_thresh;
+            float nms_overlap_thresh;
+            int nms_pre_maxnum;
+            int nms_post_maxnum;
+            int num_points;
+            std::vector<float> nms_rescale_factor;
+            std::vector<int> class_num_pre_task;
+            std::map<std::string, int> out_num_task_head;
+        };
+
+        struct BEVModelInfo
+        {
+            std::string imgstage_modelPath;
+            std::string bevstage_modelPath; 
+
+            BEVPreprocessConfig preProCfg;
+            BEVPostprocessConfig postProCfg;
+        };        
     }
 }
 #endif // _MODEL_INFO_HPP_
