@@ -10,6 +10,7 @@
 #include "mains/main_yolov7_cutoff_det.h"
 #include "mains/main_yolov7_pose_det.h"
 #include "mains/main_smoke_det.h"
+#include "mains/main_bevdet_det.h"
 
 
 int main(int argc, char *argv[])
@@ -78,6 +79,10 @@ int main(int argc, char *argv[])
     else if (s.infer_task == "smoke_det")
     {
         smoke_det_trt_inference(&s);
+    }
+    else if (s.infer_task == "bevdet")
+    {
+        bevdet_trt_inference();
     }
 
     return RETURN_SUCCESS;
