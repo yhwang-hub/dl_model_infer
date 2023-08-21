@@ -142,6 +142,7 @@ AiInfer
 | rt-detr  | 链接: https://pan.baidu.com/s/1Ft0-ewuCTK2BxTS1q1Vdtw 提取码: ekms  |
 | pointpillar  | 链接: https://pan.baidu.com/s/1RkntngPVLvETAR4l42-M9g 提取码: ugrp  |
 | yolov7-pose  | 链接: https://pan.baidu.com/s/1uI6u5oKDrnroluQufIWF7w 提取码: ed9r  |
+| BEVDet | 链接：https://drive.google.com/drive/folders/1jSGT0PhKOmW3fibp6fvlJ7EY6mIBVv6i?usp=drive_link |
 
 # Reference
 Thanks for the following items
@@ -150,3 +151,5 @@ Thanks for the following items
 - https://github.com/shouxieai/infer
 - https://github.com/openppl-public/ppq
 - https://github.com/nanmi/yolov7-pose
+- https://github.com/LCH1238/bevdet-tensorrt-cpp
+- https://github.com/LCH1238/BEVDet
