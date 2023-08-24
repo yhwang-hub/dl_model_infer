@@ -59,7 +59,7 @@ The following environments have been tested：
   - https://github.com/yhwang-hub/dl_model_infer/blob/dev/application/smoke_det_app/README.md
 - BEVDet model export tutorial
   - https://github.com/LCH1238/BEVDet/blob/export/README.md
-  - Link your own nusecnes dataset under the application/bevdet_app/data path
+  - Link your own nusecnes dataset under the application/bevdet4d_app/data path
 # Use of CPM (wrapping the inference as producer-consumer)
 - cpm.hpp Producer-consumer model
   - For direct inference tasks, cpm.hpp can be turned into an automatic multi-batch producer-consumer model

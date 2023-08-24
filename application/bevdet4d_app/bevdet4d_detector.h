@@ -19,7 +19,7 @@
 
 namespace tensorrt_infer
 {
-    namespace bevdet_det_infer
+    namespace bevdet4d_infer
     {
         using namespace ai::modelInfo;
         using namespace ai::utils;
@@ -98,17 +98,17 @@ namespace tensorrt_infer
             float* adj_buffer;
         };
 
-        class bevdet_detector
+        class bevdet4d_detector
         {
         public:
-            bevdet_detector();
-            bevdet_detector(const std::string &model_config_file, int n_img,
+            bevdet4d_detector();
+            bevdet4d_detector(const std::string &model_config_file, int n_img,
                             std::vector<Eigen::Matrix3f> _cams_intrin,
                             std::vector<Eigen::Quaternion<float>> _cams2ego_rot,
                             std::vector<Eigen::Translation3f> _cams2ego_trans,
                             const std::string &imgstage_file, 
                             const std::string &bevstage_file);
-            ~bevdet_detector();
+            ~bevdet4d_detector();
 
             void initParameters(const std::string &model_config_file,
                                 std::vector<Eigen::Matrix3f> _cams_intrin,

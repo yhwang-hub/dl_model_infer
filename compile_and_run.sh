@@ -47,6 +47,6 @@ rm -rf cuda_res/*
 # ./infer -f smoke_int8.onnx -i res/kitti_000008.png -b 1 -c 1 -s 0.2 -o cuda_res -t smoke_det
 
 rm -rf ./bevdet_output/*
-./infer -t bevdet
+./infer -t bevdet4d
 
 cd ..
