@@ -1,10 +1,10 @@
-#include "bevdet_detector.h"
+#include "bevdet4d_detector.h"
 
 namespace tensorrt_infer
 {
-    namespace bevdet_det_infer
+    namespace bevdet4d_infer
     {
-        bevdet_detector::bevdet_detector(const std::string &model_config_file, int n_img,
+        bevdet4d_detector::bevdet4d_detector(const std::string &model_config_file, int n_img,
                             std::vector<Eigen::Matrix3f> _cams_intrin,
                             std::vector<Eigen::Quaternion<float>> _cams2ego_rot,
                             std::vector<Eigen::Translation3f> _cams2ego_trans,
@@ -27,7 +27,7 @@ namespace tensorrt_infer
             printf("[InitVewTransformer cost time]: %.4lf ms\n", t2.count() * 1000);
         }
 
-        void bevdet_detector::initParameters(const std::string &model_config_file,
+        void bevdet4d_detector::initParameters(const std::string &model_config_file,
                                 std::vector<Eigen::Matrix3f> _cams_intrin,
                                 std::vector<Eigen::Quaternion<float>> _cams2ego_rot,
                                 std::vector<Eigen::Translation3f> _cams2ego_trans,
@@ -256,12 +256,12 @@ namespace tensorrt_infer
             CHECK(cudaStreamCreate(&bev_cu_stream));
         }
 
-        bevdet_detector::~bevdet_detector()
+        bevdet4d_detector::~bevdet4d_detector()
         {
             CHECK(cudaStreamDestroy(bev_cu_stream));
         }
 
-        void bevdet_detector::adjust_memory()
+        void bevdet4d_detector::adjust_memory()
         {
             src_imgs_dev_buffer_.gpu(src_imgs_buffer_size_);
 
@@ -284,7 +284,7 @@ namespace tensorrt_infer
             heatmap_output_buffer_.gpu(heatmap_output_buffer_size_);
         }
 
-        void bevdet_detector::InitViewTransformer()
+        void bevdet4d_detector::InitViewTransformer()
         {
             Eigen::Vector3f* frustum = new Eigen::Vector3f[bev_model_info->postProCfg.num_points];
             for (int i = 0; i < bev_model_info->preProCfg.N_img; i++)
@@ -441,7 +441,7 @@ namespace tensorrt_infer
             delete[] ranks_feat_host;
         }
 
-        void bevdet_detector::InitDepth(const std::vector<Eigen::Quaternion<float>> &curr_cams2ego_rot,
+        void bevdet4d_detector::InitDepth(const std::vector<Eigen::Quaternion<float>> &curr_cams2ego_rot,
                            const std::vector<Eigen::Translation3f> &curr_cams2ego_trans,
                            const std::vector<Eigen::Matrix3f> &cur_cams_intrin)
         {
@@ -504,7 +504,7 @@ namespace tensorrt_infer
             delete[] bda_host;
         }
 
-        void bevdet_detector::GetAdjFrameFeature(const std::string &curr_scene_token, 
+        void bevdet4d_detector::GetAdjFrameFeature(const std::string &curr_scene_token, 
                                     const Eigen::Quaternion<float> &ego2global_rot,
                                     const Eigen::Translation3f &ego2global_trans,
                                     float* bev_buffer, cudaStream_t stream)
@@ -547,7 +547,7 @@ namespace tensorrt_infer
             }
         }
 
-        void bevdet_detector::AlignBEVFeature(const Eigen::Quaternion<float> &curr_ego2global_rot,
+        void bevdet4d_detector::AlignBEVFeature(const Eigen::Quaternion<float> &curr_ego2global_rot,
                                     const Eigen::Quaternion<float> &adj_ego2global_rot,
                                     const Eigen::Translation3f &curr_ego2global_trans,
                                     const Eigen::Translation3f &adj_ego2global_trans,
@@ -631,7 +631,7 @@ namespace tensorrt_infer
             CHECK(cudaFree(transform_dev));
         }
 
-        void bevdet_detector::preprocess_gpu(const camsData& cam_data, int idx)
+        void bevdet4d_detector::preprocess_gpu(const camsData& cam_data, int idx)
         {
             uchar* src_img_device = src_imgs_dev_buffer_.gpu();
             float* img_input_device = (float*)img_input_buffer_.gpu();
@@ -658,7 +658,7 @@ namespace tensorrt_infer
             InitDepth(cam_data.param.cams2ego_rot, cam_data.param.cams2ego_trans, cam_data.param.cams_intrin);
         }
 
-        void bevdet_detector::forward(const camsData& cam_data, std::vector<bevBox>& out_detections, float &cost_time, int idx)
+        void bevdet4d_detector::forward(const camsData& cam_data, std::vector<bevBox>& out_detections, float &cost_time, int idx)
         {
             printf("-------------------%d-------------------\n", idx + 1);
             printf("scenes_token : %s, timestamp : %lld\n", cam_data.param.scene_token.data(), cam_data.param.timestamp);

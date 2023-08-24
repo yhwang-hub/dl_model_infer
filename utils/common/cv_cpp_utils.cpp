@@ -275,7 +275,7 @@ namespace ai
             for(std::string name : cams_name)
             {
                 // imgs_file.push_back("." + config["cams"][name]["data_path"].as<std::string>());
-                imgs_file.push_back("/home/uisee/dl_model_infer/application/bevdet_app/" + config["cams"][name]["data_path"].as<std::string>());
+                imgs_file.push_back("/home/uisee/dl_model_infer/application/bevdet4d_app/" + config["cams"][name]["data_path"].as<std::string>());
 
                 //
                 cams_intrin.push_back(fromYamlMatrix3f(config["cams"][name]["cam_intrinsic"]));

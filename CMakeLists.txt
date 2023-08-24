@@ -106,7 +106,7 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/application/pointpillar_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/pointpillar_app/*.cu
     ${PROJECT_SOURCE_DIR}/application/smoke_det_app/*.cpp
-    ${PROJECT_SOURCE_DIR}/application/bevdet_app/*.cpp
+    ${PROJECT_SOURCE_DIR}/application/bevdet4d_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_pose_app/*.cpp
@@ -147,7 +147,7 @@ add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_track_yolov8_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_pointpillar_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_smoke_det.cpp
-     ${PROJECT_SOURCE_DIR}/mains/main_bevdet_det.cpp
+     ${PROJECT_SOURCE_DIR}/mains/main_bevdet4d_det.cpp
 )
 # 8. 链接要所有要用到的so库
 target_link_libraries(infer

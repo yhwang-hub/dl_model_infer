@@ -1,4 +1,4 @@
-#include "main_bevdet_det.h"
+#include "main_bevdet4d_det.h"
 
 void TestNuscenes(YAML::Node &config)
 {
@@ -13,7 +13,7 @@ void TestNuscenes(YAML::Node &config)
     std::vector<std::string> cams_name = config["cams"].as<std::vector<std::string>>();
 
     ai::cvUtil::DataLoader nuscenes(img_N, img_h, img_w, data_info_path, cams_name);
-    tensorrt_infer::bevdet_det_infer::bevdet_detector bevdet(model_config, img_N,
+    tensorrt_infer::bevdet4d_infer::bevdet4d_detector bevdet(model_config, img_N,
                                                              nuscenes.get_cams_intrin(), 
                                                              nuscenes.get_cams2ego_rot(),
                                                              nuscenes.get_cams2ego_trans(),
@@ -57,7 +57,7 @@ void TestSample(YAML::Node &config){
     ai::cvUtil::camsData sampleData;
     sampleData.param = ai::cvUtil::camParams(camconfig, img_N, imgs_name);
 
-    tensorrt_infer::bevdet_det_infer::bevdet_detector bevdet(model_config, img_N, sampleData.param.cams_intrin, 
+    tensorrt_infer::bevdet4d_infer::bevdet4d_detector bevdet(model_config, img_N, sampleData.param.cams_intrin, 
                                                              sampleData.param.cams2ego_rot, sampleData.param.cams2ego_trans, 
                                                              imgstage_file, bevstage_file);
     std::vector<std::vector<char>> imgs_data;
@@ -80,9 +80,9 @@ void TestSample(YAML::Node &config){
     bevdet.forward(sampleData, ego_boxes, time); // only for inference time
 }
 
-void bevdet_trt_inference()
+void bevdet4d_trt_inference()
 {
-    std::string config_file = "/home/uisee/dl_model_infer/application/bevdet_app/configure.yaml";
+    std::string config_file = "/home/uisee/dl_model_infer/application/bevdet4d_app/configure.yaml";
     YAML::Node config = YAML::LoadFile(config_file);
     printf("Successful load config : %s!\n", config_file.c_str());
     bool testNuscenes = config["TestNuscenes"].as<bool>();
