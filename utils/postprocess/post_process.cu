@@ -9,6 +9,22 @@ namespace ai
         // }
         __device__ float sigmoid_gpu(const float x) { return 1.0f / (1.0f + expf(-x)); }
 
+        __device__ float Clamp(const float x)
+        {
+            float x_clamp = x;
+
+            if (x_clamp > 1.0f)
+            {
+                x_clamp = 1.0f;
+            }
+            else if (x_clamp < 0.0f)
+            {
+                x_clamp = 0.0f;
+            }
+
+            return x_clamp;
+        }
+
         // keepflag主要是用来进行nms时候判断是否将该框抛弃
         // const int NUM_BOX_ELEMENT = 7; // left, top, right, bottom, confidence, class, keepflag
         static __device__ void affine_project(float *matrix, float x, float y, float *ox, float *oy)
@@ -379,6 +395,50 @@ namespace ai
             *pout_item++ = 1; // 1 = keep, 0 = ignore
         }
 
+         static __global__ void decode_kernel_detr(float *bbox_predict, float *label_predict,
+                                                int input_h, int input_w,
+                                                int num_bboxes, float confidence_threshold,
+                                                float *parray,
+                                                int MAX_IMAGE_BOXES, int NUM_BOX_ELEMENT)
+        {
+            int position = blockDim.x * blockIdx.x + threadIdx.x;
+            if (position >= num_bboxes)
+                return;
+
+            float *pbbox = bbox_predict + 5 * position;
+            float *plabel = label_predict + 1 * position;
+
+            float *class_confidence = pbbox + 4;
+            float confidence = *class_confidence;
+            int label = (int)(*plabel);
+
+            if (confidence < confidence_threshold)
+                return;
+
+            int index = atomicAdd(parray, 1);
+            if (index >= MAX_IMAGE_BOXES)
+                return;
+
+            float x1 = *pbbox;
+            float y1 = *(pbbox + 1);
+            float x2 = *(pbbox + 2);
+            float y2 = *(pbbox + 3);
+
+            float left   =  static_cast<float>(input_w) * Clamp(x1);
+            float top    =  static_cast<float>(input_h) * Clamp(y1);
+            float right  =  static_cast<float>(input_w) * Clamp(x2);
+            float bottom =  static_cast<float>(input_h) * Clamp(y2);
+
+            float *pout_item = parray + 1 + index * NUM_BOX_ELEMENT;
+            *pout_item++ = left;
+            *pout_item++ = top;
+            *pout_item++ = right;
+            *pout_item++ = bottom;
+            *pout_item++ = confidence;
+            *pout_item++ = label;
+            *pout_item++ = 1;
+        }
+
         void decode_kernel_yolox_invoker(const float* cls_data, const float* obj_data, const float* bbox_data,
                         const int batchsize, const int det_obj_len, const int det_bbox_len, const int det_cls_len,
                         const int MAX_IMAGE_BOXES, int NUM_BOX_ELEMENT,
@@ -465,6 +525,18 @@ namespace ai
             auto block = CUDATools::block_dims(num_bboxes);
             checkCudaKernel(decode_kernel_rtdetr<<<grid, block, 0, stream>>>(
                 predict, num_bboxes, num_classes, output_cdim, confidence_threshold, scale_expand,
+                parray, MAX_IMAGE_BOXES, NUM_BOX_ELEMENT));
+        }
+
+        void decode_detect_detr_kernel_invoker(float *bbox_predict, float *label_predict,
+                                            int input_h, int input_w, int num_bboxes,
+                                            float confidence_threshold, float *parray, int MAX_IMAGE_BOXES,
+                                            int NUM_BOX_ELEMENT, cudaStream_t stream)
+        {
+            auto grid = CUDATools::grid_dims(num_bboxes);
+            auto block = CUDATools::block_dims(num_bboxes);
+            checkCudaKernel(decode_kernel_detr<<<grid, block, 0, stream>>>(
+                bbox_predict, label_predict, input_h, input_w, num_bboxes, confidence_threshold,
                 parray, MAX_IMAGE_BOXES, NUM_BOX_ELEMENT));
         }
 

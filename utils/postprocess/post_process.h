@@ -110,6 +110,16 @@ namespace ai
                         const int input_h, const int input_w, const int stride,
                         const float confThreshold, const float nmsThreshold,
                         float *invert_affine_matrix, float* output, cudaStream_t stream);
+
+        // void decode_detect_detr_kernel_invoker(float *bbox_predict, float *label_predict,
+        //                                     int input_h, int input_w, int num_bboxes,
+        //                                     float confidence_threshold, float *invert_affine_matrix, float *parray, int MAX_IMAGE_BOXES,
+        //                                     int NUM_BOX_ELEMENT, cudaStream_t stream);
+        void decode_detect_detr_kernel_invoker(float *bbox_predict, float *label_predict,
+                                            int input_h, int input_w, int num_bboxes,
+                                            float confidence_threshold, float *parray, int MAX_IMAGE_BOXES,
+                                            int NUM_BOX_ELEMENT, cudaStream_t stream);
+
         float box_iou_cpu(
             float aleft, float atop, float aright, float abottom,
             float bleft, float btop, float bright, float bbottom);
