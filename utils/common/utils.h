@@ -95,6 +95,21 @@ static float Sigmoid(float x)
 {
     return 1.0f / (1.0f + expf(-x));
 }
+
+static float Clamp_cpu(float x)
+{
+    float x_clamp = x;
+    // torch.clamp(x, 0, 1)
+    if (x_clamp > 1.0f)
+    {
+        x_clamp = 1.0f;
+    } else if (x_clamp < 0.0f)
+    {
+        x_clamp = 0.0f;
+    }
+    // std::cout << "x: " << x << ", x_clamp: " << x_clamp << std::endl;
+    return x_clamp;
+}
 #define INFO(...) ai::utils::__log_func(__FILE__, __LINE__, __VA_ARGS__)
 #define DIVUP(m, n) ((m) / (n) + ((m) % (n) > 0))
 #endif // _UTILS_HPP_

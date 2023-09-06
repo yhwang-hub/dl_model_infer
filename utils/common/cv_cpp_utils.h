@@ -54,7 +54,8 @@ namespace ai
             V8Seg = 6, // yolov8 instance segmentation
             V8Pose = 7,
             V7Pose = 8,
-            SMOKE = 9
+            SMOKE = 9,
+            DETR = 10
         };
 
         enum class Sampler

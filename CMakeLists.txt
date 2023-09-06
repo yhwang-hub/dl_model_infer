@@ -98,6 +98,7 @@ link_directories(
 file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/main.cpp
     ${PROJECT_SOURCE_DIR}/application/rt_detr_app/*.cpp
+    ${PROJECT_SOURCE_DIR}/application/detr_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov7_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov7_cutoff_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov7_pose_app/*.cpp
@@ -136,6 +137,7 @@ cuda_add_library(utils_cu_cpp SHARED ${cpp_cuda_srcs})
 
 add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_rt_detr.cpp
+     ${PROJECT_SOURCE_DIR}/mains/main_detr_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov7_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov7_cutoff_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov7_pose_det.cpp
@@ -180,6 +182,7 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/utils/preprocess/pointpillar
         ${PROJECT_SOURCE_DIR}/application/
         ${PROJECT_SOURCE_DIR}/application/rt_detr_app
+        ${PROJECT_SOURCE_DIR}/application/detr_app
         ${PROJECT_SOURCE_DIR}/application/yolov7_app
         ${PROJECT_SOURCE_DIR}/application/yolov7_cutoff_app
         ${PROJECT_SOURCE_DIR}/application/yolov7_pose_app
