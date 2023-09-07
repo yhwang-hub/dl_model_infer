@@ -27,6 +27,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.06.15 Adding Producer-Consumer Inference Model for yolov8-det
 - 2023.06.24 update 3D objection detection algorithm smoke
 - 2023.08.21 update 3D objection detection algorithm BEVDet
+- 2023.09.06 update deploy for detr in mmdetection
 
 # Environment
 The following environments have been tested：
@@ -60,6 +61,11 @@ The following environments have been tested：
 - BEVDet model export tutorial
   - https://github.com/LCH1238/BEVDet/blob/export/README.md
   - Link your own nusecnes dataset under the application/bevdet4d_app/data path
+- DETR model export tutorial
+  - Put the workspaces/detr_pytorch2onnx.py file under the mmdetection path.
+  - Modify the config_file and checkpoint_file paths in the detr_pytorch2onnx.py file.
+  - Use the detr_pytorch2onnx.py file to generate onnx file.
+  - Use trtexec to generate engine files.
 # Use of CPM (wrapping the inference as producer-consumer)
 - cpm.hpp Producer-consumer model
   - For direct inference tasks, cpm.hpp can be turned into an automatic multi-batch producer-consumer model
