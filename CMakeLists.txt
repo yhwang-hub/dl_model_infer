@@ -24,8 +24,8 @@ find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 message(STATUS ${EIGEN3_INCLUDE_DIRS})
 
-find_package(yaml-cpp REQUIRED)
-include_directories(${YAML_CPP_INCLUDE_DIRS})
+include_directories(/usr/local/include/yaml-cpp/)
+link_libraries(/usr/local/lib/libyaml-cpp.a)
 
 set(CMAKE_C_COMPILER /usr/bin/gcc)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
@@ -162,7 +162,6 @@ target_link_libraries(infer
     nvinfer 
     nvinfer_plugin
     nvonnxparser
-    yaml-cpp
     libjpeg.so
 )
 
