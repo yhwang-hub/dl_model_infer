@@ -149,6 +149,7 @@ AiInfer
 | pointpillar  | 链接: https://pan.baidu.com/s/1RkntngPVLvETAR4l42-M9g 提取码: ugrp  |
 | yolov7-pose  | 链接: https://pan.baidu.com/s/1uI6u5oKDrnroluQufIWF7w 提取码: ed9r  |
 | BEVDet | 链接：https://drive.google.com/drive/folders/1jSGT0PhKOmW3fibp6fvlJ7EY6mIBVv6i?usp=drive_link |
+| DETR | 链接：链接: https://pan.baidu.com/s/1_PQVPKy0QiFWJaB7HhyTSg 提取码: j7fs  |
 
 # Reference
 Thanks for the following items
