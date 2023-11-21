@@ -10,7 +10,7 @@ rm -rf cuda_res/*
 
 # ./infer -f rtdetr_r50vd_6x_coco_dynamic_fp16.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t rt_detr_det
 
-# ./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det
+./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det
 # ./infer -f yolov8n.transd.trt -i res/bus.jpg -b 16 -c 10 -o cuda_res -t yolov8_det
 # ./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det -p true
 
@@ -49,7 +49,7 @@ rm -rf cuda_res/*
 # rm -rf ./bevdet_output/*
 # ./infer -t bevdet4d
 
-./infer -f detr.trt -i res/demo.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
+# ./infer -f detr.trt -i res/demo.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/bus.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/zidane.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr

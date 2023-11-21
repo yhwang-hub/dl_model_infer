@@ -104,8 +104,6 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/application/yolov7_pose_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov5_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app/*.cpp
-    ${PROJECT_SOURCE_DIR}/application/pointpillar_app/*.cpp
-    ${PROJECT_SOURCE_DIR}/application/pointpillar_app/*.cu
     ${PROJECT_SOURCE_DIR}/application/smoke_det_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/bevdet4d_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app/*.cpp
@@ -116,12 +114,8 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/utils/backend/tensorrt/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/preprocess/*.cu
     ${PROJECT_SOURCE_DIR}/utils/preprocess/*.cpp
-    ${PROJECT_SOURCE_DIR}/utils/preprocess/pointpillar/*.cu
-    ${PROJECT_SOURCE_DIR}/utils/preprocess/pointpillar/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/postprocess/*.cu
     ${PROJECT_SOURCE_DIR}/utils/postprocess/*.cpp
-    ${PROJECT_SOURCE_DIR}/utils/postprocess/pointpillar/*.cu
-    ${PROJECT_SOURCE_DIR}/utils/postprocess/pointpillar/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv/*.cu
     ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter/*.cpp
@@ -147,7 +141,6 @@ add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_seg.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_pose.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_track_yolov8_det.cpp
-     ${PROJECT_SOURCE_DIR}/mains/main_pointpillar_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_smoke_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_bevdet4d_det.cpp
 )
@@ -176,9 +169,7 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/utils/backend/tensorrt
         ${PROJECT_SOURCE_DIR}/utils/common
         ${PROJECT_SOURCE_DIR}/utils/postprocess
-        ${PROJECT_SOURCE_DIR}/utils/postprocess/pointpillar
         ${PROJECT_SOURCE_DIR}/utils/preprocess
-        ${PROJECT_SOURCE_DIR}/utils/preprocess/pointpillar
         ${PROJECT_SOURCE_DIR}/application/
         ${PROJECT_SOURCE_DIR}/application/rt_detr_app
         ${PROJECT_SOURCE_DIR}/application/detr_app
@@ -187,7 +178,6 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/application/yolov7_pose_app
         ${PROJECT_SOURCE_DIR}/application/yolov5_app
         ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app
-        ${PROJECT_SOURCE_DIR}/application/pointpillar_app
         ${PROJECT_SOURCE_DIR}/application/smoke_det_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app
