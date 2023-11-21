@@ -21,7 +21,6 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.05.27 update yolov5、yolov7、yolov8、yolox
 - 2023.05.28 update rt_detr
 - 2023.06.01 update yolov8_seg、yolov8_pose
-- 2023.06.08 update pointpillar
 - 2023.06.09 update yolov7_cutoff
 - 2023.06.14 update yolov7-pose
 - 2023.06.15 Adding Producer-Consumer Inference Model for yolov8-det
@@ -50,8 +49,6 @@ The following environments have been tested：
   - https://github.com/ultralytics/yolov5
 - Yolov7 model export tutorial
   - https://github.com/WongKinYiu/yolov7
-- pointpillar model export tutorial
-  - https://github.com/NVIDIA-AI-IOT/CUDA-PointPillars
 - yolov7_cutoff model export tutorial
   - https://github.com/yhwang-hub/dl_model_deploy/tree/master/yolov7_cutoff_TensorRT
 - yolov7-pose model export tutorial
@@ -146,7 +143,6 @@ AiInfer
 | yolov8-pose  | 链接: https://pan.baidu.com/s/1lP8kiKu2a6h_FAZSSkhUgg 提取码: 7p6a  |
 | yolox  | 链接: https://pan.baidu.com/s/1U0gzW_YMbvNMtKzo4_cluA 提取码: 4xct  |
 | rt-detr  | 链接: https://pan.baidu.com/s/1Ft0-ewuCTK2BxTS1q1Vdtw 提取码: ekms  |
-| pointpillar  | 链接: https://pan.baidu.com/s/1RkntngPVLvETAR4l42-M9g 提取码: ugrp  |
 | yolov7-pose  | 链接: https://pan.baidu.com/s/1uI6u5oKDrnroluQufIWF7w 提取码: ed9r  |
 | BEVDet | 链接：https://drive.google.com/drive/folders/1jSGT0PhKOmW3fibp6fvlJ7EY6mIBVv6i?usp=drive_link |
 | DETR | 链接：链接: https://pan.baidu.com/s/1_PQVPKy0QiFWJaB7HhyTSg 提取码: j7fs  |
