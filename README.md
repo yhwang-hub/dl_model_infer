@@ -40,6 +40,12 @@ The following environments have been tested：
 - Eigen3
 - yaml
 
+You can also use docker, How to use it is as follows:
+```
+docker pull longxiaowyh/dl_model_infer:v1.0
+nvidia-docker run -itu root:root --name dl_model_infer --gpus all -v /your_path:/target_path -v /tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=unix$DISPLAY -e GDK_SCALE -e GDK_DPI_SCALE  -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=compute,utility --shm-size=64g longxiaowyh/dl_model_infer:v1.0 /bin/bash
+```
+
 # Model Export Tutorial
 - RT-DETR model export tutorial
   - https://zhuanlan.zhihu.com/p/623794029
