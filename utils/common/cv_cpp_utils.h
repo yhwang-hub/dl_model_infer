@@ -46,16 +46,17 @@ namespace ai
 
         enum class DetectorType : int
         {
-            V5 = 0,
-            X = 1,
-            V3 = 2,
-            V7 = 3,
-            V8 = 5,
-            V8Seg = 6, // yolov8 instance segmentation
-            V8Pose = 7,
-            V7Pose = 8,
-            SMOKE = 9,
-            DETR = 10
+            V5,
+            X,
+            V3,
+            V7,
+            V8,
+            V8Seg, // yolov8 instance segmentation
+            V8Pose,
+            V8Obb,
+            V7Pose,
+            SMOKE,
+            DETR
         };
 
         enum class Sampler
@@ -112,6 +113,32 @@ namespace ai
         };
         typedef std::vector<Box> BoxArray;
         typedef std::vector<BoxArray> BatchBoxArray;
+
+        struct RotateBox
+        {
+            float center_x, center_y, width, height, angle, confidence;
+            int class_label;
+
+            RotateBox() = default;
+
+            RotateBox(
+                float center_x,
+                float center_y,
+                float width,
+                float height,
+                float angle,
+                float confidence,
+                int class_label) :
+                    center_x(center_x),
+                    center_y(center_y),
+                    width(width),
+                    height(height),
+                    angle(angle),
+                    confidence(confidence),
+                    class_label(class_label){}
+        };
+        typedef std::vector<RotateBox> RotateBoxArray;
+        typedef std::vector<RotateBoxArray> BatchRotateBoxArray;
 
         struct BboxDim
         {
@@ -308,6 +335,8 @@ namespace ai
         // draw image
         void draw_one_image_rectangle(cv::Mat &image, BoxArray &result, const std::string &save_dir, const std::vector<std::string> &classlabels);
         void draw_batch_rectangle(std::vector<cv::Mat> &images, BatchBoxArray &batched_result, const std::string &save_dir, const std::vector<std::string> &classlabels);
+
+        void draw_batch_rotaterectangle(std::vector<cv::Mat> &images, BatchRotateBoxArray &batched_result, const std::string &save_dir, const std::vector<std::string> &dotalabels);
 
         // draw seg image
         void draw_batch_segment(std::vector<cv::Mat> &images, BatchSegBoxArray &batched_result, const std::string &save_dir,
