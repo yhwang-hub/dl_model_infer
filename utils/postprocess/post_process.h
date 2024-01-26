@@ -84,10 +84,18 @@ namespace ai
         // nms的cuda实现
         void nms_kernel_invoker(float *parray, float nms_threshold, int max_objects, int NUM_BOX_ELEMENT, cudaStream_t stream);
 
+        // 旋转bbox nms实现
+        void rotatebbox_nms_kernel_invoker(float* parray, float nms_threshold, int max_objects, int NUM_BOX_ELEMENT, cudaStream_t stream);
+
         // yolov8 detect后处理解析
         void decode_detect_yolov8_kernel_invoker(float *predict, int num_bboxes, int num_classes, int output_cdim,
                                                  float confidence_threshold, float *invert_affine_matrix,
                                                  float *parray, int MAX_IMAGE_BOXES, int NUM_BOX_ELEMENT, cudaStream_t stream);
+
+        // yolov8 obb后处理解析
+        void decode_yolov8_obb_kernel_invoker(float* predict, int num_bboxes, int num_classes,
+                                              float confidence_threshold, float* invert_affine_matrix,
+                                              float* parray, int MAX_IMAGE_BOXES, int NUM_ROTATEBOX_ELEMENT, cudaStream_t stream);
 
         // yolov8 segment分支后处理
         void decode_single_mask(float left, float top, float *mask_weights, float *mask_predict,

@@ -1,5 +1,6 @@
 #include "mains/main_rt_detr.h"
 #include "mains/main_yolov8_det.h"
+#include "mains/main_yolov8_obb.h"
 #include "mains/main_yolov8_seg.h"
 #include "mains/main_yolov8_pose.h"
 #include "mains/main_track_yolov8_det.h"
@@ -39,6 +40,10 @@ int main(int argc, char *argv[])
         {
             yolov8_trt_inference(&s);
         }
+    }
+    else if (s.infer_task == "yolov8_obb")
+    {
+        yolov8_obb_trt_inference(&s);
     }
     else if (s.infer_task == "yolov8_seg")
     {

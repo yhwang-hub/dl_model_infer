@@ -126,6 +126,54 @@ namespace ai
             }
         }
 
+        static std::vector<cv::Point> xywhr2xyxyxyxy(const RotateBox& box)
+        {
+            float cos_value = std::cos(box.angle);
+            float sin_value = std::sin(box.angle);
+
+            float w_2 = box.width / 2, h_2 = box.height / 2;
+            float vec1_x =  w_2 * cos_value, vec1_y = w_2 * sin_value;
+            float vec2_x = -h_2 * sin_value, vec2_y = h_2 * cos_value;
+
+            std::vector<cv::Point> corners;
+            corners.push_back(cv::Point(box.center_x + vec1_x + vec2_x, box.center_y + vec1_y + vec2_y));
+            corners.push_back(cv::Point(box.center_x + vec1_x - vec2_x, box.center_y + vec1_y - vec2_y));
+            corners.push_back(cv::Point(box.center_x - vec1_x - vec2_x, box.center_y - vec1_y - vec2_y));
+            corners.push_back(cv::Point(box.center_x - vec1_x + vec2_x, box.center_y - vec1_y + vec2_y));
+
+            return corners;
+        }
+
+        void draw_batch_rotaterectangle(std::vector<cv::Mat> &images, BatchRotateBoxArray &batched_result, const std::string &save_dir, const std::vector<std::string> &dotalabels)
+        {
+            for (int ib = 0; ib < (int)batched_result.size(); ++ib)
+            {
+                auto &objs = batched_result[ib];
+                auto &image = images[ib];
+                for (auto &obj : objs)
+                {
+                    // fprintf(stderr, "%d = %.5f at %.2f %.2f %.2f x %.2f\n", obj.class_label, obj.confidence,\
+                            obj.left, obj.top, obj.right, obj.bottom);
+
+                    uint8_t b, g, r;
+                    tie(b, g, r) = random_color(obj.class_label);
+                    auto corners = xywhr2xyxyxyxy(obj);
+                    cv::polylines(image, vector<vector<cv::Point>>{corners}, true, cv::Scalar(b, g, r), 2, 16);
+
+                    auto name = dotalabels[obj.class_label];
+                    auto caption = cv::format("%s %.2f", name.c_str(), obj.confidence);
+                    int width = cv::getTextSize(caption, 0, 1, 2, nullptr).width + 10;
+                    cv::rectangle(image, cv::Point(corners[0].x-3, corners[0].y-33), cv::Point(corners[0].x-3 + width, corners[0].y), cv::Scalar(b, g, r), -1);
+                    cv::putText(image, caption, cv::Point(corners[0].x-3, corners[0].y-5), 0, 1, cv::Scalar::all(0), 2, 16);
+                }
+                if (mkdirs(save_dir))
+                {
+                    std::string save_path = path_join("%s/Infer_%d.jpg", save_dir.c_str(), ib);
+                    cv::imwrite(save_path, image);
+                }
+            }
+        }
+
         void draw_one_image_rectangle(cv::Mat &image, BoxArray &result, const std::string &save_dir, const std::vector<std::string> &classlabels)
         {
 

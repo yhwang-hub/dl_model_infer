@@ -56,6 +56,12 @@ namespace ai
                                                        "refrigerator", "book", "clock",
                                                        "vase", "scissors", "teddy bear",
                                                        "hair drier", "toothbrush"};
+
+            const std::vector<std::string> dotalabels{
+                "plane", "ship", "storage tank", "baseball diamond", "tennis court",
+                "basketball court", "ground track field", "harbor", "bridge", "large vehicle",
+                "small vehicle", "helicopter", "roundabout", "soccer ball field", "swimming pool"
+            };
         };
         const std::vector<std::string> mmdet3d_classlabels{"Pedestrian", "Cyclist", "Car"};
         int parseArgs(int argc, char **argv, Settings *s); // 解析命令行输入的参数并赋值给Settings
