@@ -1,4 +1,5 @@
 # yolov8不同任务中onnx的导出方法
+## yolov8-detect onnx的导出
 - https://github.com/ultralytics/ultralytics
 - 修改dynamic参数中对应的代码
 ```
@@ -36,7 +37,62 @@ yolo export \
 # 前言：yolov3/4/5/x/6/7人家都是[-1,8400,box_num+cls_num],你yolov8咋恁特立独行呢，干他，必须干他
 # 使用assets/yolov8_onnx_trans.py直接转换最后一层layer的维度[detect,segment,pose都要转换]，就是将8400这个维度放到前面
 ```
-# yolov8的onnx生成engine文件
+
+## yolov8-obb onnx导出
+- https://github.com/ultralytics/ultralytics
+- 修改dynamic参数中对应的代码
+1. 在 ultralytics/engine/exporter.py 文件中改动一处
+    - 353 行：输出节点名修改为 output
+    - 356 行：输入只让 batch 维度动态，宽高不动态
+    - 361 行：输出只让 batch 维度动态，宽高不动态
+```
+# ========== exporter.py ==========
+
+# ultralytics/engine/exporter.py第353行
+# output_names = ['output0', 'output1'] if isinstance(self.model, SegmentationModel) else ['output0']
+# dynamic = self.args.dynamic
+# if dynamic:
+#     dynamic = {'images': {0: 'batch', 2: 'height', 3: 'width'}}  # shape(1,3,640,640)
+#     if isinstance(self.model, SegmentationModel):
+#         dynamic['output0'] = {0: 'batch', 2: 'anchors'}  # shape(1, 116, 8400)
+#         dynamic['output1'] = {0: 'batch', 2: 'mask_height', 3: 'mask_width'}  # shape(1,32,160,160)
+#     elif isinstance(self.model, DetectionModel):
+#         dynamic['output0'] = {0: 'batch', 2: 'anchors'}  # shape(1, 84, 8400)
+# 修改为：
+
+output_names = ['output0', 'output1'] if isinstance(self.model, SegmentationModel) else ['output']
+dynamic = self.args.dynamic
+if dynamic:
+    dynamic = {'images': {0: 'batch'}}  # shape(1,3,640,640)
+    if isinstance(self.model, SegmentationModel):
+        dynamic['output0'] = {0: 'batch', 2: 'anchors'}  # shape(1, 116, 8400)
+        dynamic['output1'] = {0: 'batch', 2: 'mask_height', 3: 'mask_width'}  # shape(1,32,160,160)
+    elif isinstance(self.model, DetectionModel):
+        dynamic['output'] = {0: 'batch'}  # shape(1, 84, 8400)
+```
+2. 在 ultralytics/nn/modules/head.py 文件中改动一处
+    - 141 行：添加 transpose 节点交换输出的第 2 和第 3 维度
+```
+# ========== head.py ==========
+
+# ultralytics/nn/modules/head.py第141行，forward函数
+# return torch.cat([x, angle], 1) if self.export else (torch.cat([x[0], angle], 1), (x[1], angle))
+# 修改为：
+
+return torch.cat([x, angle], 1).permute(0, 2, 1) if self.export else (torch.cat([x[0], angle], 1), (x[1], angle))
+```
+以上就是为了适配 tensorRT_Pro 而做出的代码修改，修改好以后，将预训练权重 yolov8s-obb.pt 放在 ultralytics-main 主目录下，新建导出文件 export.py，内容如下：
+```
+from ultralytics import YOLO
+model = YOLO("yolov8s-obb.pt")
+success = model.export(format="onnx", dynamic=True, simplify=True)
+```
+在终端执行如下指令即可完成 onnx 导出：
+```
+python export.py
+```
+
+## yolov8的onnx生成engine文件
 - fp16量化生成的命令如下，这个精度损失不大，可以直接使用trtexec完成
 ```
 trtexec --onnx=xxx_det_seg_pose_trans.onnx \
