@@ -27,6 +27,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.06.24 update 3D objection detection algorithm smoke
 - 2023.08.21 update 3D objection detection algorithm BEVDet
 - 2023.09.06 update deploy for detr in mmdetection
+- 2024.01.26 update yolov8-obb
 
 # Environment
 The following environments have been tested：
