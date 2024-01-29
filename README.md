@@ -152,7 +152,8 @@ AiInfer
 | rt-detr  | 链接: https://pan.baidu.com/s/1Ft0-ewuCTK2BxTS1q1Vdtw 提取码: ekms  |
 | yolov7-pose  | 链接: https://pan.baidu.com/s/1uI6u5oKDrnroluQufIWF7w 提取码: ed9r  |
 | BEVDet | 链接：https://drive.google.com/drive/folders/1jSGT0PhKOmW3fibp6fvlJ7EY6mIBVv6i?usp=drive_link |
-| DETR | 链接：链接: https://pan.baidu.com/s/1_PQVPKy0QiFWJaB7HhyTSg 提取码: j7fs  |
+| DETR | 链接: https://pan.baidu.com/s/1_PQVPKy0QiFWJaB7HhyTSg 提取码: j7fs  |
+| yolov8-obb| 链接: https://pan.baidu.com/s/1bMZuZPtTNjo5tl5heOdJRw 提取码: fudj |
 
 # Reference
 Thanks for the following items
@@ -163,3 +164,4 @@ Thanks for the following items
 - https://github.com/nanmi/yolov7-pose
 - https://github.com/LCH1238/bevdet-tensorrt-cpp
 - https://github.com/LCH1238/BEVDet
+- https://github.com/Melody-Zhou/tensorRT_Pro-YOLOv8
