@@ -1,41 +1,56 @@
 # yolov8不同任务中onnx的导出方法
 ## yolov8-detect onnx的导出
-- https://github.com/ultralytics/ultralytics
-- 修改dynamic参数中对应的代码
+1. 在 ultralytics/engine/exporter.py 文件中改动一处
+    - 323 行：输出节点名修改为 output
+    - 326 行：输入只让 batch 维度动态，宽高不动态
+    - 331 行：输出只让 batch 维度动态，宽高不动态
 ```
-# 位置:ultralytics/yolo/engine/exporter.py中export_onnx函数，选择你要导出的任务，修改如下即可：
+# ========== exporter.py ==========
+
+# ultralytics/engine/exporter.py第323行
+# output_names = ['output0', 'output1'] if isinstance(self.model, SegmentationModel) else ['output0']
+# dynamic = self.args.dynamic
+# if dynamic:
+#     dynamic = {'images': {0: 'batch', 2: 'height', 3: 'width'}}  # shape(1,3,640,640)
+#     if isinstance(self.model, SegmentationModel):
+#         dynamic['output0'] = {0: 'batch', 2: 'anchors'}  # shape(1, 116, 8400)
+#         dynamic['output1'] = {0: 'batch', 2: 'mask_height', 3: 'mask_width'}  # shape(1,32,160,160)
+#     elif isinstance(self.model, DetectionModel):
+#         dynamic['output0'] = {0: 'batch', 2: 'anchors'}  # shape(1, 84, 8400)
+# 修改为：
+
+output_names = ['output0', 'output1'] if isinstance(self.model, SegmentationModel) else ['output']
+dynamic = self.args.dynamic
 if dynamic:
     dynamic = {'images': {0: 'batch'}}  # shape(1,3,640,640)
     if isinstance(self.model, SegmentationModel):
-        dynamic['output0'] = {0: 'batch'}
-        dynamic['output1'] = {0: 'batch'}
+        dynamic['output0'] = {0: 'batch', 2: 'anchors'}  # shape(1, 116, 8400)
+        dynamic['output1'] = {0: 'batch', 2: 'mask_height', 3: 'mask_width'}  # shape(1,32,160,160)
     elif isinstance(self.model, DetectionModel):
-        dynamic['output0'] = {0: 'batch'}
+        dynamic['output'] = {0: 'batch'}  # shape(1, 84, 8400)
+```
+2. 在 ultralytics/nn/modules/head.py 文件中改动一处
+    - 72 行：添加 transpose 节点交换输出的第 2 和第 3 维度
+```
+# ========== head.py ==========
 
-# 补充，注意导出yolov-pose任务的时候有个小bug(如果改过来就算了)，kpts_decode方法中:
-if self.export:  # required for TFLite export to avoid 'PLACEHOLDER_FOR_GREATER_OP_CODES' bug
-    y = kpts.view(bs, *self.kpt_shape, -1)
-    a = (y[:, :, :2] * 2.0 + (self.anchors - 0.5)) * self.strides
-    if ndim == 3:
-        # a = torch.cat((a, y[:, :, 1:2].sigmoid()), 2) # 作者这里写错了，不应该是width的sigmoid
-        a = torch.cat((a, y[:, :, 2:3].sigmoid()), 2) # 应该是score分支的sigmoid
-    return a.view(bs, self.nk, -1)
+# ultralytics/nn/modules/head.py第72行，forward函数
+# return y if self.export else (y, x)
+# 修改为：
+
+return y.permute(0, 2, 1) if self.export else (y, x)
 ```
-- 然后使用下面的命令对yolov8的各任务模型进行导出即可，注意，默认的imgsz是640x640,这个根据你实际情况更改
+- 新建导出文件 export.py，内容如下：
 ```
-yolo export \
-    model=xxx_det_seg_pose.pt \
-    imgsz=[640,640] \
-    device=0 \
-    format=onnx \
-    opset=11 \
-    dynamic=True \
-    simplify=True
+from ultralytics import YOLO
+
+model = YOLO("yolov8s.pt")
+
+success = model.export(format="onnx", dynamic=True, simplify=True)
 ```
-- yolov8检测分支导出onnx shape=[-1,box_num+cls_num,8400]，框维度在最后这就带来一个框内存不连续的问题，解决：
+在终端执行如下指令即可完成 onnx 导出：
 ```
-# 前言：yolov3/4/5/x/6/7人家都是[-1,8400,box_num+cls_num],你yolov8咋恁特立独行呢，干他，必须干他
-# 使用assets/yolov8_onnx_trans.py直接转换最后一层layer的维度[detect,segment,pose都要转换]，就是将8400这个维度放到前面
+python export.py
 ```
 
 ## yolov8-obb onnx导出
