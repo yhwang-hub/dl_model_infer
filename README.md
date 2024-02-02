@@ -25,7 +25,6 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.06.14 update yolov7-pose
 - 2023.06.15 Adding Producer-Consumer Inference Model for yolov8-det
 - 2023.06.24 update 3D objection detection algorithm smoke
-- 2023.08.21 update 3D objection detection algorithm BEVDet
 - 2023.09.06 update deploy for detr in mmdetection
 - 2024.01.26 update yolov8-obb
 
@@ -62,9 +61,6 @@ nvidia-docker run -itu root:root --name dl_model_infer --gpus all -v /your_path:
   - https://github.com/yhwang-hub/dl_model_infer/tree/master/application/yolov7_pose_app
 - smoke model export tutorial
   - https://github.com/yhwang-hub/dl_model_infer/blob/dev/application/smoke_det_app/README.md
-- BEVDet model export tutorial
-  - https://github.com/LCH1238/BEVDet/blob/export/README.md
-  - Link your own nusecnes dataset under the application/bevdet4d_app/data path
 - DETR model export tutorial
   - Put the workspaces/detr_pytorch2onnx.py file under the mmdetection path.
   - Modify the config_file and checkpoint_file paths in the detr_pytorch2onnx.py file.
@@ -151,7 +147,6 @@ AiInfer
 | yolox  | 链接: https://pan.baidu.com/s/1U0gzW_YMbvNMtKzo4_cluA 提取码: 4xct  |
 | rt-detr  | 链接: https://pan.baidu.com/s/1Ft0-ewuCTK2BxTS1q1Vdtw 提取码: ekms  |
 | yolov7-pose  | 链接: https://pan.baidu.com/s/1uI6u5oKDrnroluQufIWF7w 提取码: ed9r  |
-| BEVDet | 链接：https://drive.google.com/drive/folders/1jSGT0PhKOmW3fibp6fvlJ7EY6mIBVv6i?usp=drive_link |
 | DETR | 链接: https://pan.baidu.com/s/1_PQVPKy0QiFWJaB7HhyTSg 提取码: j7fs  |
 | yolov8-obb| 链接: https://pan.baidu.com/s/1bMZuZPtTNjo5tl5heOdJRw 提取码: fudj |
 
@@ -162,6 +157,4 @@ Thanks for the following items
 - https://github.com/shouxieai/infer
 - https://github.com/openppl-public/ppq
 - https://github.com/nanmi/yolov7-pose
-- https://github.com/LCH1238/bevdet-tensorrt-cpp
-- https://github.com/LCH1238/BEVDet
 - https://github.com/Melody-Zhou/tensorRT_Pro-YOLOv8

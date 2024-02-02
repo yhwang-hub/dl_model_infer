@@ -48,9 +48,6 @@ rm -rf cuda_res/*
 # ./infer -f smoke_dla34.onnx -i res/kitti_000008.png -b 1 -c 1 -s 0.2 -o cuda_res -t smoke_det
 # ./infer -f smoke_int8.onnx -i res/kitti_000008.png -b 1 -c 1 -s 0.2 -o cuda_res -t smoke_det
 
-# rm -rf ./bevdet_output/*
-# ./infer -t bevdet4d
-
 # ./infer -f detr.trt -i res/demo.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/bus.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
