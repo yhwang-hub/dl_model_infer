@@ -105,7 +105,6 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/application/yolov5_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/smoke_det_app/*.cpp
-    ${PROJECT_SOURCE_DIR}/application/bevdet4d_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_obb_app/*.cpp
@@ -121,7 +120,6 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv/*.cu
     ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter/*.cu
-    ${PROJECT_SOURCE_DIR}/utils/kernels/bevpool/*.cu
     ${PROJECT_SOURCE_DIR}/utils/kernels/grid_sampler/*.cu
     ${PROJECT_SOURCE_DIR}/utils/kernels/iou3d_nms/*.cu
     ${TensorRT_ROOT}/samples/common/logger.cpp # 引用对应版本的logger.cpp，用来适应多版本
@@ -144,7 +142,6 @@ add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_pose.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_track_yolov8_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_smoke_det.cpp
-     ${PROJECT_SOURCE_DIR}/mains/main_bevdet4d_det.cpp
 )
 # 8. 链接要所有要用到的so库
 target_link_libraries(infer
@@ -187,7 +184,6 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_pose_app
         ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv
         ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter
-        ${PROJECT_SOURCE_DIR}/utils/kernels/bevpool
         ${PROJECT_SOURCE_DIR}/utils/kernels/grid_sampler
         ${PROJECT_SOURCE_DIR}/utils/kernels/iou3d_nms
         DESTINATION include/

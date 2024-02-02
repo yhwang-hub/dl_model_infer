@@ -10,7 +10,6 @@
 #include "mains/main_yolov7_cutoff_det.h"
 #include "mains/main_yolov7_pose_det.h"
 #include "mains/main_smoke_det.h"
-#include "mains/main_bevdet4d_det.h"
 #include "mains/main_detr_det.h"
 
 
@@ -80,10 +79,6 @@ int main(int argc, char *argv[])
     else if (s.infer_task == "smoke_det")
     {
         smoke_det_trt_inference(&s);
-    }
-    else if (s.infer_task == "bevdet4d")
-    {
-        bevdet4d_trt_inference();
     }
     else if (s.infer_task == "detr")
     {
