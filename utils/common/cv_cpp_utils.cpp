@@ -56,7 +56,8 @@ namespace ai
                 detectortype == DetectorType::V5 ||
                 detectortype == DetectorType::V8 ||
                 detectortype == DetectorType::X ||
-                detectortype == DetectorType::SMOKE
+                detectortype == DetectorType::SMOKE ||
+                detectortype == DetectorType::DEPTH_ANYTHING
                 )
             {
                 i2d[2] = 0;

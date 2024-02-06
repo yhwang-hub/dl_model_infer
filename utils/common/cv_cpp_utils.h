@@ -54,7 +54,8 @@ namespace ai
             V8Obb,
             V7Pose,
             SMOKE,
-            DETR
+            DETR,
+            DEPTH_ANYTHING
         };
 
         enum class Sampler
