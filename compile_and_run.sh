@@ -14,7 +14,7 @@ rm -rf cuda_res/*
 # ./infer -f yolov8n.transd.trt -i res/bus.jpg -b 16 -c 10 -o cuda_res -t yolov8_det
 # ./infer -f yolov8n.transd.trt -i res/dog.jpg -b 16 -c 10 -o cuda_res -t yolov8_det -p true
 
-./infer -f yolov8s-obb.transd.trt -i res/P0032.png -b 16 -c 10 -o cuda_res -t yolov8_obb
+# ./infer -f yolov8s-obb.transd.trt -i res/P0032.png -b 16 -c 10 -o cuda_res -t yolov8_obb
 
 # ./infer -f yolov8n-seg.b1.transd.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -t yolov8_seg
 
@@ -52,5 +52,7 @@ rm -rf cuda_res/*
 # ./infer -f detr.trt -i res/dog.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/bus.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
 # ./infer -f detr.trt -i res/zidane.jpg -b 1 -c 10 -o cuda_res -s 0.8 -t detr
+
+./infer -f depth_anything_vits14.trt -i res/sacre_coeur1.jpg -b 1 -c 10 -o cuda_res -t depth_anything
 
 cd ..

@@ -27,6 +27,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2023.06.24 update 3D objection detection algorithm smoke
 - 2023.09.06 update deploy for detr in mmdetection
 - 2024.01.26 update yolov8-obb
+- 2024.02.06 update depth-anything
 
 # Environment
 The following environments have been tested：
@@ -66,6 +67,9 @@ nvidia-docker run -itu root:root --name dl_model_infer --gpus all -v /your_path:
   - Modify the config_file and checkpoint_file paths in the detr_pytorch2onnx.py file.
   - Use the detr_pytorch2onnx.py file to generate onnx file.
   - Use trtexec to generate engine files.
+- DepthAnything model export tutorial
+  - https://github.com/spacewalk01/depth-anything-tensorrt
+  - https://github.com/daniel89710/trt-depth-anything
 # Use of CPM (wrapping the inference as producer-consumer)
 - cpm.hpp Producer-consumer model
   - For direct inference tasks, cpm.hpp can be turned into an automatic multi-batch producer-consumer model
@@ -149,6 +153,7 @@ AiInfer
 | yolov7-pose  | 链接: https://pan.baidu.com/s/1uI6u5oKDrnroluQufIWF7w 提取码: ed9r  |
 | DETR | 链接: https://pan.baidu.com/s/1_PQVPKy0QiFWJaB7HhyTSg 提取码: j7fs  |
 | yolov8-obb| 链接: https://pan.baidu.com/s/1bMZuZPtTNjo5tl5heOdJRw 提取码: fudj |
+| Depth-Anything| 链接: https://pan.baidu.com/s/1ZiE1AVvpB6owND5wEqHwMw 提取码: cp97 |
 
 # Reference
 Thanks for the following items
