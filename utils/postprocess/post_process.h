@@ -16,6 +16,7 @@ namespace ai
     namespace postprocess
     {
         using namespace ai::utils;
+        using namespace ai::cvUtil;
 
         // 一般用于对yolov3/v5/v7/yolox的解析，如果你有其他任务模型的后处理需要cuda加速，也可写在这个地方
         // 默认一张图片最多的检测框是1024，可以通过传参或者直接修改默认参数改变
@@ -64,6 +65,11 @@ namespace ai
                                             int input_h, int input_w, int num_bboxes,
                                             float confidence_threshold, float *parray, int MAX_IMAGE_BOXES,
                                             int NUM_BOX_ELEMENT, cudaStream_t stream);
+
+        void decode_yolop_mask_kernel_invoker(float* pred_drive, float* pred_lane,
+                                    uint8_t* pimage_out, uint8_t* pdrive_mask_out, uint8_t* plane_mask_out,
+                                    int in_width, int in_height, float* affine_matrix,
+                                    int dst_width, int dst_height, DetectorType type, cudaStream_t stream);
 
         float box_iou_cpu(
             float aleft, float atop, float aright, float abottom,

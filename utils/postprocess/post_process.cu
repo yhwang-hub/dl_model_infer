@@ -41,6 +41,16 @@ namespace ai
             *oh = matrix[0] * h;
         }
 
+        static __device__ int mini(int a, int b)
+        {
+            return a < b ? a : b;
+        }
+
+        static __device__ int maxi(int a, int b)
+        {
+            return a < b ? b : a;
+        }
+
         static __global__ void decode_kernel_common(float *predict, int num_bboxes, int num_classes,
                                                     int output_cdim, float confidence_threshold,
                                                     float *invert_affine_matrix, float *parray,
@@ -561,6 +571,82 @@ namespace ai
             *pout_item++ = 1;
         }
 
+        static __global__ void decode_yolopv1_mask_kernel(float* pred_drive, float* pred_lane,
+                                                uint8_t* pimage_out, uint8_t* pdrive_mask_out, uint8_t* plane_mask_out,
+                                                int in_width, int in_height, float* affine_matrix,
+                                                int dst_width, int dst_height, int edge)
+        {
+
+            int position = blockDim.x * blockIdx.x + threadIdx.x;
+            if (position >= edge) return;
+
+            int dx = position % dst_width;
+            int dy = position / dst_width;
+
+            // 映射
+            float src_x, src_y;
+            affine_project(affine_matrix, dx, dy, &src_x, &src_y);
+            // 边界判断
+            int y = mini(maxi(round(src_y), 0), dst_height);
+            int x = mini(maxi(round(src_x), 0), dst_width);
+
+            // 生成mask
+            int area = in_width * in_height;
+            uint8_t* pdst = pimage_out + dy * dst_width * 3 + dx * 3;
+            if(pred_drive[y * in_width + x] < pred_drive[area + y * in_width + x])
+            {
+                pdst[0] = 0;
+                pdst[1] = 255;
+                pdst[2] = 0;
+                pdrive_mask_out[dy * dst_width + dx] = 255;
+            }
+            if(pred_lane[y * in_width + x] < pred_lane[area + y * in_width + x])
+            {
+                pdst[0] = 255;
+                pdst[1] = 0;
+                pdst[2] = 0;
+                plane_mask_out[dy * dst_width + dx] = 255;
+            }
+        }
+
+        static __global__ void decode_yolopv2_mask_kernel(float* pred_drive, float* pred_lane,
+                                                uint8_t* pimage_out, uint8_t* pdrive_mask_out, uint8_t* plane_mask_out,
+                                                int in_width, int in_height, float* affine_matrix,
+                                                int dst_width, int dst_height, int edge)
+        {
+
+            int position = blockDim.x * blockIdx.x + threadIdx.x;
+            if (position >= edge) return;
+
+            int dx = position % dst_width;
+            int dy = position / dst_width;
+
+            // 映射
+            float src_x, src_y;
+            affine_project(affine_matrix, dx, dy, &src_x, &src_y);
+            // 边界判断
+            int y = mini(maxi(round(src_y), 0), dst_height);
+            int x = mini(maxi(round(src_x), 0), dst_width);
+
+            // 生成mask
+            int area = in_width * in_height;
+            uint8_t* pdst = pimage_out + dy * dst_width * 3 + dx * 3;
+            if(pred_drive[y * in_width + x] < pred_drive[area + y * in_width + x])
+            {
+                pdst[0] = 0;
+                pdst[1] = 255;
+                pdst[2] = 0;
+                pdrive_mask_out[dy * dst_width + dx] = 255;
+            }
+            if(pred_lane[y * in_width + x] > 0.5)
+            {
+                pdst[0] = 255;
+                pdst[1] = 0;
+                pdst[2] = 0;
+                plane_mask_out[dy * dst_width + dx] = 255;
+            }
+        }
+
         void decode_kernel_yolox_invoker(const float* cls_data, const float* obj_data, const float* bbox_data,
                         const int batchsize, const int det_obj_len, const int det_bbox_len, const int det_cls_len,
                         const int MAX_IMAGE_BOXES, int NUM_BOX_ELEMENT,
@@ -679,5 +765,26 @@ namespace ai
                 bbox_predict, label_predict, input_h, input_w, num_bboxes, confidence_threshold,
                 parray, MAX_IMAGE_BOXES, NUM_BOX_ELEMENT));
         }
+
+        void decode_yolop_mask_kernel_invoker(float* pred_drive, float* pred_lane,
+                                    uint8_t* pimage_out, uint8_t* pdrive_mask_out, uint8_t* plane_mask_out,
+                                    int in_width, int in_height, float* affine_matrix,
+                                    int dst_width, int dst_height, DetectorType type, cudaStream_t stream){
+        int jobs = dst_width * dst_height;
+        auto grid = CUDATools::grid_dims(jobs);
+        auto block = CUDATools::block_dims(jobs);
+        if(type == DetectorType::YOLOPV1)
+        {
+            checkCudaKernel(decode_yolopv1_mask_kernel<<<grid, block, 0, stream>>>(
+                    pred_drive, pred_lane, pimage_out, pdrive_mask_out, plane_mask_out,
+                    in_width, in_height, affine_matrix, dst_width, dst_height, jobs));
+        }
+        else if(type == DetectorType::YOLOPV2)
+        {
+            checkCudaKernel(decode_yolopv2_mask_kernel<<<grid, block, 0, stream>>>(
+                    pred_drive, pred_lane, pimage_out, pdrive_mask_out, plane_mask_out,
+                    in_width, in_height, affine_matrix, dst_width, dst_height, jobs));
+        }
+    }
     }
 }

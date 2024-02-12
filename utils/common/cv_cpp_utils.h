@@ -55,7 +55,9 @@ namespace ai
             V7Pose,
             SMOKE,
             DETR,
-            DEPTH_ANYTHING
+            DEPTH_ANYTHING,
+            YOLOPV1,
+            YOLOPV2
         };
 
         enum class Sampler
@@ -219,6 +221,9 @@ namespace ai
 
         typedef std::vector<PoseBox> PoseBoxArray;
         typedef std::vector<PoseBoxArray> BatchPoseBoxArray;
+
+        typedef std::tuple<BoxArray, cv::Mat, cv::Mat, cv::Mat> PTMM;
+        typedef std::vector<PTMM> BatchPTMM;
 
         // draw image
         void draw_one_image_rectangle(cv::Mat &image, BoxArray &result, const std::string &save_dir, const std::vector<std::string> &classlabels);

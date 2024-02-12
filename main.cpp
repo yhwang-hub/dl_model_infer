@@ -12,7 +12,7 @@
 #include "mains/main_smoke_det.h"
 #include "mains/main_detr_det.h"
 #include "mains/main_depth_anything.h"
-
+#include "mains/main_yolop_det.h"
 
 int main(int argc, char *argv[])
 {
@@ -88,6 +88,10 @@ int main(int argc, char *argv[])
     else if (s.infer_task == "depth_anything")
     {
         depth_anything_trt_inference(&s);
+    }
+    else if(s.infer_task == "yolopv1" || s.infer_task == "yolopv2")
+    {
+        yolop_det_trt_inference(&s);
     }
 
     return RETURN_SUCCESS;

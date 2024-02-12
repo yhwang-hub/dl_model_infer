@@ -104,6 +104,7 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/application/yolov7_pose_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov5_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app/*.cpp
+    ${PROJECT_SOURCE_DIR}/application/yolop_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/smoke_det_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app/*.cpp
@@ -137,6 +138,7 @@ add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_yolov7_pose_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov5_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolox_det.cpp
+     ${PROJECT_SOURCE_DIR}/mains/main_yolop_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_seg.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_obb.cpp
@@ -179,6 +181,7 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/application/yolov7_pose_app
         ${PROJECT_SOURCE_DIR}/application/yolov5_app
         ${PROJECT_SOURCE_DIR}/application/yolox_mmdet_app
+        ${PROJECT_SOURCE_DIR}/application/yolop_app
         ${PROJECT_SOURCE_DIR}/application/smoke_det_app
         ${PROJECT_SOURCE_DIR}/application/depth_anything_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_det_app
