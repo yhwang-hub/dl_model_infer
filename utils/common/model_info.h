@@ -35,6 +35,9 @@ namespace ai
             std::vector<int> seg_head_dims_;
             size_t seg_head_dims_output_numel_{0}; // 模型输出的大小，无需配置
 
+            std::vector<int> lane_head_dims_;
+            size_t lane_head_dims_output_numel_{0}; // 模型输出的大小，无需配置
+
             // pose分支
             int pose_num_ = 0;
 
@@ -57,6 +60,8 @@ namespace ai
         struct ModelInfo
         {
             std::string m_modelPath; // engine 路径,传参获取，无需配置
+
+            ai::cvUtil::DetectorType detectortype_;
 
             // 后面这两个根据你自己的任务进行参数配置,下面是常用的一些基础配置
             PreprocessImageConfig m_preProcCfg;   // 预处理配置
