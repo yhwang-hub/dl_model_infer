@@ -10,10 +10,11 @@ set(CMAKE_BUILD_TYPE Debug)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/workspaces)
 set(CMAKE_INSTALL_PREFIX ${EXECUTABLE_OUTPUT_PATH}/install/) # make install时的存储路径
 
-# 2. 设置显卡算力，如果你是不同显卡，请设置为显卡对应的号码参考下面的链接，我这里是RTX 3090,对应的是sm_86：
+# 2. 设置显卡算力，如果你是不同显卡，请设置为显卡对应的号码参考下面的链接，我这里是RTX 3060,对应的是sm_86：
 # https://developer.nvidia.com/zh-cn/cuda-gpus#compute
 # set(CUDA_NVCC_FLAGS "-gencode=arch=compute_86,code=sm_86;-G;-g;-O0;-w")
 set(CUDA_NVCC_FLAGS "-gencode=arch=compute_86,code=sm_86;-g;-O2;-w")
+# set(CUDA_NVCC_FLAGS "-gencode=arch=compute_87,code=sm_87;-g;-O2;-w") # 如果是orin，对应的是sm_87
 
 # 3. 寻找cuda和opencv库
 find_package(CUDA REQUIRED) # 这个默认你本机已经安装
@@ -30,12 +31,12 @@ link_libraries(/usr/local/lib/libyaml-cpp.a)
 set(CMAKE_C_COMPILER /usr/bin/gcc)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
 
-set(CUDA_TOOLKIT_ROOT_DIR /usr/local/cuda-11.1)
+set(CUDA_TOOLKIT_ROOT_DIR /usr/local/cuda)
 set(CUDA_INCLUDE_DIRS ${CUDA_TOOLKIT_ROOT_DIR}/include)
 
 # 4. 设置tensorrt的主目录,支持tensorrt7.xx和tensorrt8.xx
-# set(TensorRT_ROOT "/home/uisee/disk/TensorRT-8.6.0.12") # 设置tensorrt8.xx根目录，改为你自己的即可
 set(TensorRT_ROOT "/home/uisee/disk/TensorRT-8.5.1.7") # 设置tensorrt8.xx根目录，改为你自己的即可
+# set(TensorRT_ROOT "/usr/src/tensorrt/") # 在Orin中TensorRT根目录
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread -g -Wall -Ofast -Wfatal-errors -D_MWAITXINTRIN_H_INCLUDED -O0")
 # set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
@@ -73,8 +74,9 @@ include_directories(
     ${CUDA_INCLUDE_DIRS}
 
     # tensorrt
-    ${TensorRT_ROOT}/include
+    ${TensorRT_ROOT}/include # X86中的tensorrt include路径
     ${TensorRT_ROOT}/samples/common # 导入这个主要是为了适应于trt多版本[v7.xx,v8.xx]的logger导入
+    # /usr/include/x86_64-linux-gnu/ # Orin中的tensorrt include路径
 
     # 项目里要用到的
     ${PROJECT_SOURCE_DIR}/utils
@@ -84,13 +86,12 @@ include_directories(
 # 6. link要用到的so库路径
 # 补充：具体的cuda_lib库命名可以看 https://cmake.org/cmake/help/latest/module/FindCUDA.html
 link_directories(
-    # ${CUDA_LIBRARIES}
-    # ${CUDA_cublas_LIBRARY}
-    # ${CUDA_cudart_static_LIBRARY}
+    # cuda
     ${CUDA_TOOLKIT_ROOT_DIR}/lib64
 
     # tensorrt
-    ${TensorRT_ROOT}/lib
+    ${TensorRT_ROOT}/lib # X86中的tensorrt lib路径
+    # /usr/lib/x86_64-linux-gnu/ # Orin中的tensorrt lib路径
 )
 
 
@@ -194,11 +195,3 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/utils/kernels/iou3d_nms
         DESTINATION include/
         FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h" PATTERN "*.cu")
-
-# 通过make auto -j 来编译和运行程序
-# add_custom_target(
-#     auto
-#     DEPENDS infer
-#     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/workspaces
-#     COMMAND ./infer
-# )

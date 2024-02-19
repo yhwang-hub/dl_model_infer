@@ -142,6 +142,25 @@ AiInfer
    |--main.cpp # Project entry
 ```
 
+# Speed Test
+Tested on Jetson Orin, the test includes the entire process (image preprocessing + model inference + post-processing decoding)
+| Model  |  Precision  |  Resolution  |  FPS(bs=1) |
+| ------------- | ------------- |
+| rtdetr_r50  |  FP16  |  640x640  |  19  |
+| yolov8n  |  FP16  |  640x640  |  126  |
+| yolov8n-seg  |  FP16  |  640x640  |  92  |
+| yolov8s-pose  |  FP16  |  640x640  |  58  |
+| yolov8s-obb  |  FP16  |  1024x1024  |  38  |
+| yolov5s  |  FP16  |  640x640  |  92  |
+| yolov7  |  FP16  |  640x640  |  34  |
+| yolov7_cutoff  |  FP16  |  640x640  |  32  |
+| yolov7-w6-pose  |  FP16  |  960x960  |  22  |
+| yolox_s  |  FP16  |  640x640  |  91  |
+| detr  |  FP16  |  800x1190  |  18  |
+| depth_anything_vits14  |  FP16  |  518x518  |  19  |
+| yolop  |  FP16  |  640x640  |  40  |
+| yolopv2  |  FP16  |  480x640  |  26  |
+
 # onnx downloads
 | model  | baiduyun |
 | ------------- | ------------- |
