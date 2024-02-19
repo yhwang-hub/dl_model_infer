@@ -143,9 +143,9 @@ AiInfer
 ```
 
 # Speed Test
-Tested on Jetson Orin, the test includes the entire process (image preprocessing + model inference + post-processing decoding)
+Tested on Jetson Orin, the test includes the entire process (image preprocessing + model inference + post-processing decoding)、
 | Model  |  Precision  |  Resolution  |  FPS(bs=1) |
-| ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- |
 | rtdetr_r50  |  FP16  |  640x640  |  19  |
 | yolov8n  |  FP16  |  640x640  |  126  |
 | yolov8n-seg  |  FP16  |  640x640  |  92  |
