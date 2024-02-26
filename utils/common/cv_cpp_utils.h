@@ -57,7 +57,8 @@ namespace ai
             DETR,
             DEPTH_ANYTHING,
             YOLOPV1,
-            YOLOPV2
+            YOLOPV2,
+            YOLOV9
         };
 
         enum class Sampler

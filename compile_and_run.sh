@@ -56,6 +56,10 @@ rm -rf cuda_res/*
 # ./infer -f depth_anything_vits14.trt -i res/sacre_coeur1.jpg -b 1 -c 10 -o cuda_res -t depth_anything
 
 # ./infer -f yolop-640.trt -i res/drive_lane.jpg -b 1 -c 10 -o cuda_res -t yolopv1
-./infer -f yolopv2-480x640.trt -i res/drive_lane.jpg -b 1 -c 10 -o cuda_res -t yolopv2
+# ./infer -f yolopv2-480x640.trt -i res/drive_lane.jpg -b 1 -c 10 -o cuda_res -t yolopv2
+
+# ./infer -f yolov9-c_transd_fp16.trt -i res/bus.jpg -b 1 -c 10 -w 2 -o cuda_res -t yolov9_det
+# ./infer -f yolov9-c_transd_fp16.trt -i res/zidane.jpg -b 1 -c 10 -w 2 -o cuda_res -t yolov9_det
+./infer -f yolov9-c_transd_fp16.trt -i res/demo.jpg -b 1 -c 10 -w 2 -o cuda_res -t yolov9_det
 
 cd ..
