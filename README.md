@@ -29,6 +29,7 @@ and cuda c supports dynamic-batch image process, infer, decode, NMS.
 - 2024.01.26 update yolov8-obb
 - 2024.02.06 update depth-anything
 - 2024.02.12 update yolop & yolopv2
+- 2024.02.26 update yolov9
 
 # Environment
 The following environments have been tested：
@@ -73,6 +74,8 @@ nvidia-docker run -itu root:root --name dl_model_infer --gpus all -v /your_path:
   - https://github.com/daniel89710/trt-depth-anything
 - YOLOP model export tutorial
   - Refer to the workspace/yolop_model_compile.sh file
+- Yolov9 model export tutorial
+  - https://github.com/yhwang-hub/dl_model_infer/tree/master/application/yolov9_app/README.md
 # Use of CPM (wrapping the inference as producer-consumer)
 - cpm.hpp Producer-consumer model
   - For direct inference tasks, cpm.hpp can be turned into an automatic multi-batch producer-consumer model
@@ -178,6 +181,7 @@ Tested on Jetson Orin, the test includes the entire process (image preprocessing
 | Depth-Anything| 链接: https://pan.baidu.com/s/1ZiE1AVvpB6owND5wEqHwMw 提取码: cp97 |
 | YOLOP| 链接: https://pan.baidu.com/s/1Q0itb-TMoYpx27x0stwUag 提取码: rc3p |
 | YOLOPV2| 链接: https://pan.baidu.com/s/19sNBrwIx2TAD7iOJtZrDuA 提取码: 15vm |
+| YOLOV9 | 链接: https://pan.baidu.com/s/1Cotnig9BgeJt7gAW-Vy8Pg 提取码: n4hm |
 
 # Reference
 Thanks for the following items

@@ -111,6 +111,7 @@ file(GLOB_RECURSE cpp_cuda_srcs
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_obb_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_pose_app/*.cpp
+    ${PROJECT_SOURCE_DIR}/application/yolov9_app/*.cpp
     ${PROJECT_SOURCE_DIR}/application/depth_anything_app/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/common/*.cpp
     ${PROJECT_SOURCE_DIR}/utils/tracker/ByteTracker/*.cpp
@@ -144,6 +145,7 @@ add_executable(infer
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_seg.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_obb.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_yolov8_pose.cpp
+     ${PROJECT_SOURCE_DIR}/mains/main_yolov9_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_track_yolov8_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_smoke_det.cpp
      ${PROJECT_SOURCE_DIR}/mains/main_depth_anything.cpp
@@ -189,6 +191,7 @@ install(DIRECTORY
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_seg_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_obb_app
         ${PROJECT_SOURCE_DIR}/application/yolov8_app/yolov8_pose_app
+        ${PROJECT_SOURCE_DIR}/application/yolov9_app
         ${PROJECT_SOURCE_DIR}/utils/plugins/modulated_deform_conv
         ${PROJECT_SOURCE_DIR}/utils/plugins/pillarScatter
         ${PROJECT_SOURCE_DIR}/utils/kernels/grid_sampler
